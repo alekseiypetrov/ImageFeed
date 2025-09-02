@@ -13,9 +13,7 @@ class ImagesListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tableView.rowHeight = 200
-        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
     }
     
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
@@ -57,5 +55,19 @@ extension ImagesListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.cellForRow(at: indexPath)?.setSelected(false, animated: true)
         return
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let imageName = photosName[indexPath.row] + ".jpg"
+        guard let image = UIImage(named: imageName) else {
+            return CGFloat(200.0)
+        }
+        
+        let imageInset = UIEdgeInsets(top: 11, left: 20, bottom: 11, right: 20)
+        let imageViewWidth = tableView.bounds.width - imageInset.left - imageInset.right
+        
+        let scale = imageViewWidth / image.size.width
+        let imageHieght = image.size.height * scale + imageInset.top + imageInset.bottom
+        return CGFloat(imageHieght)
     }
 }
