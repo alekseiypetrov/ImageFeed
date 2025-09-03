@@ -2,9 +2,10 @@ import UIKit
 
 final class ImagesListCell: UITableViewCell {
     static let reuseIdentifier = "ImagesListCell"
-    static let tintColorOfLikeButtonRed = UIColor(red: 245.0 / 255.0, green: 107.0 / 255.0, blue: 108.0 / 255.0, alpha: 1.0)
-    static let tintColorOfLikeButtonWhite = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 0.5)
     
+    static let activeImageOfLikeButton = UIImage(named: "Active")
+    static let noActiveImageOfLikeButton = UIImage(named: "No Active")
+
     private let leftBackgroundColorOfImageView = UIColor(red: 174.0 / 255.0, green: 175.0 / 255.0, blue: 180.0 / 255.0, alpha: 1.0)
     private let rightBackgroundColorOfImageView = UIColor(red: 174.0 / 255.0, green: 175.0 / 255.0, blue: 180.0 / 255.0, alpha: 0.3)
     

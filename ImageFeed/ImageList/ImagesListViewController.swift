@@ -20,14 +20,15 @@ class ImagesListViewController: UIViewController {
         let imageName = photosName[indexPath.row] + ".jpg"
         guard let image = UIImage(named: imageName) else {
             cell.dateTitle.text = ""
-            cell.likeButton.tintColor = ImagesListCell.tintColorOfLikeButtonWhite
+            cell.likeButton.setImage(ImagesListCell.noActiveImageOfLikeButton, for: .normal)
             cell.showGradient()
             return
         }
         cell.hideGradient()
         cell.customImageView.image = image
         cell.dateTitle.text = dateFormatter.string(from: Date.now)
-        cell.likeButton.tintColor = indexPath.row % 2 == 0 ? ImagesListCell.tintColorOfLikeButtonRed : ImagesListCell.tintColorOfLikeButtonWhite
+        let settingImage = indexPath.row % 2 == 0 ? ImagesListCell.activeImageOfLikeButton : ImagesListCell.noActiveImageOfLikeButton
+        cell.likeButton.setImage(settingImage, for: .normal)
     }
 }
 
