@@ -2,15 +2,10 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     
-    @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var userTagLabel: UILabel!
-    
-    @IBOutlet weak var descriptionLabel: UILabel!
-    
-    override func viewDidLoad() {
-        return
-    }
+    @IBOutlet private weak var avatarImageView: UIImageView!
+    @IBOutlet private weak var usernameLabel: UILabel!
+    @IBOutlet private weak var userTagLabel: UILabel!
+    @IBOutlet private weak var descriptionLabel: UILabel!
     
     @IBAction func logoutFromAccount(_ sender: Any) {
     }
