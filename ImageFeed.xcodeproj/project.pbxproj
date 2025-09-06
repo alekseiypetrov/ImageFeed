@@ -16,6 +16,7 @@
 		9765D39C2E5B5968001A7DE4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9765D39B2E5B5968001A7DE4 /* Assets.xcassets */; };
 		9765D39F2E5B5968001A7DE4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9765D39D2E5B5968001A7DE4 /* LaunchScreen.storyboard */; };
 		97A12E122E66D4A200666A65 /* ImagesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A12E112E66D4A200666A65 /* ImagesListCell.swift */; };
+		97CD5D472E6CD0FC00F0A457 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CD5D462E6CD0FC00F0A457 /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		9765D39E2E5B5968001A7DE4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9765D3A02E5B5968001A7DE4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		97A12E112E66D4A200666A65 /* ImagesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListCell.swift; sourceTree = "<group>"; };
+		97CD5D462E6CD0FC00F0A457 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 				9765D39B2E5B5968001A7DE4 /* Assets.xcassets */,
 				9765D39D2E5B5968001A7DE4 /* LaunchScreen.storyboard */,
 				9765D3A02E5B5968001A7DE4 /* Info.plist */,
+				97CD5D462E6CD0FC00F0A457 /* Constants.swift */,
 			);
 			path = ImageFeed;
 			sourceTree = "<group>";
@@ -175,6 +178,7 @@
 				97A12E122E66D4A200666A65 /* ImagesListCell.swift in Sources */,
 				974996272E685F4C000DC02F /* ProfileViewController.swift in Sources */,
 				9765D3932E5B5961001A7DE4 /* AppDelegate.swift in Sources */,
+				97CD5D472E6CD0FC00F0A457 /* Constants.swift in Sources */,
 				9749962A2E699673000DC02F /* SingleImageViewController.swift in Sources */,
 				9765D3952E5B5961001A7DE4 /* SceneDelegate.swift in Sources */,
 			);
