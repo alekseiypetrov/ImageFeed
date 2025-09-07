@@ -138,7 +138,7 @@
                                     <constraint firstAttribute="height" constant="50" id="h7j-CF-HMa"/>
                                 </constraints>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="sharing"/>
+                                <buttonConfiguration key="configuration" style="plain" image="share_button"/>
                                 <connections>
                                     <action selector="didTapShareButton:" destination="IIi-G6-3GM" eventType="touchUpInside" id="kOR-fc-gqW"/>
                                 </connections>
@@ -232,7 +232,7 @@
         <image name="7" width="1200" height="800"/>
         <image name="heart.fill" catalog="system" width="128" height="107"/>
         <image name="nav_bar_back" width="24" height="24"/>
-        <image name="sharing" width="50" height="50"/>
+        <image name="share_button" width="50" height="50"/>
         <image name="tab_editorial_active" width="30" height="30"/>
         <image name="tab_profile_active" width="30" height="30"/>
     </resources>
