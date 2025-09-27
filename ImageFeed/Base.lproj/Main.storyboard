@@ -233,18 +233,26 @@
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="gZc-C2-8Bn">
+                                <rect key="frame" x="0.0" y="103" width="393" height="4"/>
+                                <color key="progressTintColor" name="YP Black"/>
+                            </progressView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="US9-9D-C7e"/>
                         <color key="backgroundColor" name="YP White"/>
                         <constraints>
+                            <constraint firstItem="gZc-C2-8Bn" firstAttribute="top" secondItem="US9-9D-C7e" secondAttribute="top" id="2gR-4G-oh6"/>
+                            <constraint firstItem="gZc-C2-8Bn" firstAttribute="leading" secondItem="US9-9D-C7e" secondAttribute="leading" id="8Eg-U1-L0P"/>
                             <constraint firstItem="2QI-dQ-4wE" firstAttribute="top" secondItem="US9-9D-C7e" secondAttribute="top" id="DGE-td-46A"/>
                             <constraint firstItem="2QI-dQ-4wE" firstAttribute="leading" secondItem="US9-9D-C7e" secondAttribute="leading" id="JD6-So-LFv"/>
                             <constraint firstAttribute="bottom" secondItem="2QI-dQ-4wE" secondAttribute="bottom" id="OdD-cb-k5y"/>
+                            <constraint firstItem="gZc-C2-8Bn" firstAttribute="trailing" secondItem="US9-9D-C7e" secondAttribute="trailing" id="T7U-vw-BYx"/>
                             <constraint firstItem="2QI-dQ-4wE" firstAttribute="trailing" secondItem="US9-9D-C7e" secondAttribute="trailing" id="hc2-N5-1DQ"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" style="editor" id="9L6-VV-lw0"/>
+                    <navigationItem key="navigationItem" id="9L6-VV-lw0"/>
                     <connections>
+                        <outlet property="progressView" destination="gZc-C2-8Bn" id="hd2-Ym-KWV"/>
                         <outlet property="webView" destination="2QI-dQ-4wE" id="JnJ-xF-nkg"/>
                     </connections>
                 </viewController>
@@ -339,6 +347,9 @@
         <image name="share_button" width="50" height="50"/>
         <image name="tab_editorial_active" width="30" height="30"/>
         <image name="tab_profile_active" width="30" height="30"/>
+        <namedColor name="YP Black">
+            <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="YP White">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
