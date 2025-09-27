@@ -14,8 +14,8 @@ final class ImagesListCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         gradientLayer.colors = [
-            Constants.leftBackgroundColorOfImageView.cgColor,
-            Constants.rightBackgroundColorOfImageView.cgColor
+            Colors.leftBackgroundColorOfImageView.cgColor,
+            Colors.rightBackgroundColorOfImageView.cgColor
         ]
         gradientLayer.startPoint = CGPoint(x: 1, y: 0.5)
         gradientLayer.endPoint   = CGPoint(x: 0, y: 0.5)
