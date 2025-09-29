@@ -10,6 +10,7 @@ struct OAuthTokenResponseBody: Decodable {
 
 final class OAuth2Service {
     static let shared = OAuth2Service()
+    let storage = OAuth2TokenStorage()
     
     private init() {}
     
@@ -37,7 +38,8 @@ final class OAuth2Service {
         guard let request = makeOAuthTokenRequest(code: code) else {
             return
         }
-        let task = URLSession.shared.data(for: request) {result in
+        let task = URLSession.shared.data(for: request) {[weak self] result in
+            guard let self = self else { return }
             switch result {
             case .failure(let error):
                 print("Получена ошибка")
@@ -47,6 +49,7 @@ final class OAuth2Service {
                     let decoder = JSONDecoder()
                     let response = try decoder.decode(OAuthTokenResponseBody.self, from: data)
                     print("Токен успешно получен")
+                    self.storage.token = response.accessToken
                     completion(.success(response.accessToken))
                 } catch {
                     print("Произошла ошибка при декодировании полученной информации: \(error)")

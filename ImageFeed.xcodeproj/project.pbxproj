@@ -23,6 +23,7 @@
 		97DEB7962E8ABB9600A34487 /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DEB7952E8ABB9600A34487 /* OAuth2Service.swift */; };
 		97DEB7982E8ABF4F00A34487 /* URLSession+data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DEB7972E8ABF4F00A34487 /* URLSession+data.swift */; };
 		97DEB79A2E8AC5D000A34487 /* OAuth2TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DEB7992E8AC5D000A34487 /* OAuth2TokenStorage.swift */; };
+		97DEB79C2E8ADA1500A34487 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97DEB79B2E8ADA1500A34487 /* SplashViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		97DEB7952E8ABB9600A34487 /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
 		97DEB7972E8ABF4F00A34487 /* URLSession+data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+data.swift"; sourceTree = "<group>"; };
 		97DEB7992E8AC5D000A34487 /* OAuth2TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2TokenStorage.swift; sourceTree = "<group>"; };
+		97DEB79B2E8ADA1500A34487 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 		9765D3912E5B5961001A7DE4 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				97DEB79D2E8ADDB600A34487 /* SplashViewController */,
 				97272FD52E881195004B4068 /* Auth */,
 				974996282E699655000DC02F /* SingleImage */,
 				974996252E685F2D000DC02F /* Profile */,
@@ -127,6 +130,14 @@
 				9765D3962E5B5961001A7DE4 /* ImagesListViewController.swift */,
 			);
 			path = ImageList;
+			sourceTree = "<group>";
+		};
+		97DEB79D2E8ADDB600A34487 /* SplashViewController */ = {
+			isa = PBXGroup;
+			children = (
+				97DEB79B2E8ADA1500A34487 /* SplashViewController.swift */,
+			);
+			path = SplashViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,6 +216,7 @@
 				97272FDB2E88375E004B4068 /* WebViewControllerDelegate.swift in Sources */,
 				974996272E685F4C000DC02F /* ProfileViewController.swift in Sources */,
 				97DEB7962E8ABB9600A34487 /* OAuth2Service.swift in Sources */,
+				97DEB79C2E8ADA1500A34487 /* SplashViewController.swift in Sources */,
 				9765D3932E5B5961001A7DE4 /* AppDelegate.swift in Sources */,
 				97272FD72E8811AD004B4068 /* AuthViewController.swift in Sources */,
 				97CD5D472E6CD0FC00F0A457 /* Constants.swift in Sources */,

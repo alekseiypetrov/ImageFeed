@@ -1,12 +1,12 @@
 import UIKit
 
 final class OAuth2TokenStorage {
-    var token: String {
+    var token: String? {
         set {
             UserDefaults.standard.setValue(newValue, forKey: "accessToken")
         }
         get {
-            return UserDefaults.standard.string(forKey: "accessToken") ?? ""
+            return UserDefaults.standard.string(forKey: "accessToken")
         }
     }
 }
