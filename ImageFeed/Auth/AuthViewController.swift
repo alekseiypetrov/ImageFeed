@@ -15,7 +15,7 @@ final class AuthViewController: UIViewController {
             return
         }
         guard let webViewController = segue.destination as? WebViewViewController else {
-            assertionFailure("Failed to prepare for \(segueWebViewIdentifier)")
+            assertionFailure("Failed to prepare for \(segueWebViewIdentifier).")
             return
         }
         webViewController.delegate = self
@@ -41,9 +41,10 @@ extension AuthViewController: WebViewControllerDelegate {
             guard let self = self else { return }
             switch result {
             case .failure:
-                print("Ошибка при авторизации")
+                print("Произошла ошибка при авторизации.")
                 break
             case .success:
+                print("Авторизация прошла успешно, начинается перенаправление к галерее.")
                 self.delegate?.didAuthentificate(self)
             }
         })

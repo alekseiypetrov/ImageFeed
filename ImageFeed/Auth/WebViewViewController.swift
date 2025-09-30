@@ -15,11 +15,11 @@ final class WebViewViewController: UIViewController {
         super.viewDidLoad()
         webView.navigationDelegate = self
         loadAuthView()
-        updateProgress()
     }
     
     private func loadAuthView() {
         guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
+            print("Ошибка при создании объекта URLComponents по ссылке: \(WebViewConstants.unsplashAuthorizeURLString).")
             return
         }
         
@@ -31,11 +31,14 @@ final class WebViewViewController: UIViewController {
         ]
         
         guard let url = urlComponents.url else {
+            print("Возникла ошибка при сборке URL.")
             return
         }
         
         let request = URLRequest(url: url)
+        print("Запрос для загрузки страницы авторизации успешно сформирован.")
         webView.load(request)
+        updateProgress()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -87,12 +90,13 @@ extension WebViewViewController: WKNavigationDelegate {
     private func code(from navigationAction: WKNavigationAction) -> String? {
         if let url = navigationAction.request.url,
            let urlComponents = URLComponents(string: url.absoluteString),
-           urlComponents.path == "/ouath/authrize/native",
+           urlComponents.path == "/oauth/authorize/native",
            let items = urlComponents.queryItems,
            let codeItem = items.first(where: { $0.name == "code" }) 
         {
             return codeItem.value
         } else {
+            print("Возникла ошибка при получении кода для аутентификации.")
             return nil
         }
     }
