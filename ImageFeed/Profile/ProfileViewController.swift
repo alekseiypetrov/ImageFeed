@@ -14,7 +14,7 @@ final class ProfileViewController: UIViewController {
     }
     
     private func configureUIElements() {
-        view.backgroundColor = Constants.backgroundColor
+        view.backgroundColor = UIColor(named: "YP Black")
         configureProfileImage()
         configureLabels()
         configureButton()
@@ -56,8 +56,7 @@ final class ProfileViewController: UIViewController {
         for label in [username, description] {
             label.textColor = .white
         }
-        tag.textColor = Constants.tagLabelTintColor
-        
+        tag.textColor = UIColor(named: "YP Grey")
         username.font = UIFont.boldSystemFont(ofSize: 23)
         tag.font = UIFont.systemFont(ofSize: 13)
         description.font = UIFont.systemFont(ofSize: 13)
@@ -83,7 +82,7 @@ final class ProfileViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(button)
         
-        button.tintColor = Constants.buttonLogoutOrLikedTintColor
+        button.tintColor = UIColor(named: "YP Red")
         
         NSLayoutConstraint.activate([
             button.widthAnchor.constraint(equalToConstant: 44),
