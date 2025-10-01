@@ -1,5 +1,15 @@
 import UIKit
 
+extension Date {
+    static var safe: Date {
+        if #available(iOS 15.0, *) {
+            return Date.now
+        } else {
+            return Date()
+        }
+    }
+}
+
 final class ImagesListViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     private let showSingleImageSegue = "ShowSingleImage"
@@ -48,7 +58,7 @@ final class ImagesListViewController: UIViewController {
         }
         cell.hideGradient()
         cell.customImageView.image = image
-        cell.dateTitle.text = dateFormatter.string(from: Date.now)
+        cell.dateTitle.text = dateFormatter.string(from: Date.safe)
         let settingImage = indexPath.row % 2 == 0 ? ImagesListCell.activeImageOfLikeButton : ImagesListCell.noActiveImageOfLikeButton
         cell.likeButton.setImage(settingImage, for: .normal)
     }
