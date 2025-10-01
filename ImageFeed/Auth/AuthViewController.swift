@@ -1,4 +1,5 @@
 import UIKit
+import ProgressHUD
 
 protocol AuthViewControllerDelegate: AnyObject {
     func didAuthentificate(_ vc: AuthViewController)
@@ -36,16 +37,19 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthentificateWithCode code: String) {
-        //TODO: Will be made later
+        vc.dismiss(animated: true)
+        ProgressHUD.animate()
         oauth2Service.fetchOAuthToken(code: code, completion: {[weak self] result in
+            ProgressHUD.dismiss()
             guard let self = self else { return }
             switch result {
-            case .failure:
-                print("Произошла ошибка при авторизации.")
-                break
             case .success:
                 print("Авторизация прошла успешно, начинается перенаправление к галерее.")
                 self.delegate?.didAuthentificate(self)
+            case .failure:
+                //TODO: Will be made later
+                print("Произошла ошибка при авторизации.")
+                break
             }
         })
     }
@@ -54,3 +58,11 @@ extension AuthViewController: WebViewControllerDelegate {
         vc.dismiss(animated: true, completion: nil)
     }
 }
+
+//extension AuthViewController {
+//    private func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
+//        oauth2Service.fetchOAuthToken(code: code) { result in
+//            completion(result)
+//        }
+//    }
+//}
