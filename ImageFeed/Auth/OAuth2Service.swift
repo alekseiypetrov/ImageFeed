@@ -11,10 +11,21 @@ class SnakeCaseJSONDecoder: JSONDecoder {
     }
 }
 
+enum AuthServiceError: Error {
+    case invalidRequest
+}
+
+extension Notification.Name {
+    static let didReceiveToken = Notification.Name("didReceiveToken")
+}
+
 final class OAuth2Service {
     static let shared = OAuth2Service()
     private let tokenURL = "https://unsplash.com/oauth/token"
-    let storage = OAuth2TokenStorage()
+    private let storage = OAuth2TokenStorage()
+    private let urlSession = URLSession.shared
+    private var lastCode: String?
+    private var task: URLSessionTask?
     
     private init() {}
     
@@ -42,29 +53,48 @@ final class OAuth2Service {
     }
     
     func fetchOAuthToken(code: String, completion: @escaping (Swift.Result<String, Error>) -> Void) {
-        guard let request = makeOAuthTokenRequest(code: code) else {
-            print("Возникла ошибка при создании POST-запроса.")
+        assert(Thread.isMainThread)
+        guard lastCode != code else {
+            print("Коды старого и нового запроса совпали. Ничего не делаем.")
+            completion(.failure(AuthServiceError.invalidRequest))
             return
         }
-        let task = URLSession.shared.data(for: request) {[weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .failure(let error):
-                print("Получена ошибка при выполнении запроса: \(error).")
-                completion(.failure(error))
-            case .success(let data):
-                do {
-                    let decoder = SnakeCaseJSONDecoder()
-                    let response = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-                    self.storage.token = response.accessToken
-                    print("Токен успешно получен и сохранен.")
-                    completion(.success(response.accessToken))
-                } catch {
-                    print("Произошла ошибка при декодировании полученной информации: \(error).")
+        if let task = task {
+            print("Коды старого и нового запроса не совпали. Отменяем старый запрос и делаем новый.")
+            task.cancel()
+        }
+        lastCode = code
+        
+        guard let request = makeOAuthTokenRequest(code: code) else {
+            print("Возникла ошибка при создании POST-запроса.")
+            completion(.failure(AuthServiceError.invalidRequest))
+            return
+        }
+        let task = urlSession.data(for: request) {[weak self] result in
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                switch result {
+                case .failure(let error):
+                    print("Получена ошибка при выполнении запроса: \(error).")
                     completion(.failure(error))
+                case .success(let data):
+                    do {
+                        let decoder = SnakeCaseJSONDecoder()
+                        let response = try decoder.decode(OAuthTokenResponseBody.self, from: data)
+                        self.storage.token = response.accessToken
+                        NotificationCenter.default.post(name: .didReceiveToken, object: nil)
+                        print("Токен успешно получен и сохранен.")
+                        completion(.success(response.accessToken))
+                    } catch {
+                        print("Произошла ошибка при декодировании полученной информации: \(error).")
+                        completion(.failure(error))
+                    }
                 }
+                self.task = nil
+                self.lastCode = nil
             }
         }
+        self.task = task
         task.resume()
     }
 }

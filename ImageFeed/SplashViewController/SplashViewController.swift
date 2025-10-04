@@ -3,18 +3,32 @@ import UIKit
 final class SplashViewController: UIViewController {
     private let storage = OAuth2TokenStorage()
     private let showAuthorizationScreen = "showAuthFlow"
-    private let showGalleryScreen = "showGallaryFlow"
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didReceiveToken),
+                                               name: .didReceiveToken,
+                                               object: nil)
+    }
+    
+    @objc private func didReceiveToken() {
+        print("SplashVC получил уведомление о новом токене, переключаемся к галерее.")
+        switchToTabBarController()
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if storage.token != nil {
+            print("Токен есть, переход к галерее.")
             switchToTabBarController()
         } else {
+            print("Токена нет, необходимо авторизоваться.")
             performSegue(withIdentifier: showAuthorizationScreen, sender: nil)
         }
     }
-    
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == showAuthorizationScreen else {
             super.prepare(for: segue, sender: sender)
