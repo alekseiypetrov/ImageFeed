@@ -24,16 +24,16 @@ final class ProfileViewController: UIViewController {
             print("Нет токена.")
             return
         }
-        ProfileService.shared.fetchProfile(token) {[weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let profile):
-                self.updateLabels(with: profile)
-            case .failure(let error):
-                print("Ошибка при получении данных о профиле: \(error).")
-                break
-            }
-        }
+//        ProfileService.shared.fetchProfile(token) {[weak self] result in
+//            guard let self = self else { return }
+//            switch result {
+//            case .success(let profile):
+//                self.updateLabels(with: profile)
+//            case .failure(let error):
+//                print("Ошибка при получении данных о профиле: \(error).")
+//                break
+//            }
+//        }
     }
     
     private func configureProfileImage() {

@@ -3,19 +3,7 @@ import UIKit
 final class SplashViewController: UIViewController {
     private let storage = OAuth2TokenStorage.shared
     private let showAuthorizationScreen = "showAuthFlow"
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(didReceiveToken),
-                                               name: .didReceiveToken,
-                                               object: nil)
-    }
-    
-    @objc private func didReceiveToken() {
-        print("SplashVC получил уведомление о новом токене, переключаемся к галерее.")
-        switchToTabBarController()
-    }
+    private let profileService = ProfileService.shared
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -55,7 +43,27 @@ final class SplashViewController: UIViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func didAuthentificate(_ vc: AuthViewController) {
-        vc.dismiss(animated: true)
-        switchToTabBarController()
+        guard let token = storage.token else {
+            return
+        }
+        vc.dismiss(animated: true) { [weak self] in
+            guard let self = self else { return }
+            self.fetchProfile(token: token)
+        }
+    }
+    
+    private func fetchProfile(token: String) {
+        UIBlockingProgressHUD.show()
+        profileService.fetchProfile(token) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            guard let self = self else { return }
+            switch result {
+            case .success:
+                self.switchToTabBarController()
+            case .failure:
+                // TODO: will be made later
+                break
+            }
+        }
     }
 }

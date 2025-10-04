@@ -71,7 +71,6 @@ final class OAuth2Service {
                         let decoder = SnakeCaseJSONDecoder()
                         let response = try decoder.decode(OAuthTokenResponseBody.self, from: data)
                         self.storage.token = response.accessToken
-                        NotificationCenter.default.post(name: .didReceiveToken, object: nil)
                         print(response.accessToken)
                         print("Токен успешно получен и сохранен.")
                         completion(.success(response.accessToken))

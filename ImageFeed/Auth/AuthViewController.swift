@@ -37,7 +37,6 @@ final class AuthViewController: UIViewController {
 
 extension AuthViewController: WebViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthentificateWithCode code: String) {
-        vc.dismiss(animated: true)
         UIBlockingProgressHUD.show()
         oauth2Service.fetchOAuthToken(code: code, completion: {[weak self] result in
             UIBlockingProgressHUD.dismiss()
@@ -45,11 +44,15 @@ extension AuthViewController: WebViewControllerDelegate {
             switch result {
             case .success(_):
                 print("Авторизация прошла успешно, начинается перенаправление к галерее.")
-                self.delegate?.didAuthentificate(self)
+                vc.dismiss(animated: true) { [weak self] in
+                    guard let self = self else { return }
+                    self.delegate?.didAuthentificate(self)
+                }
                 break
             case .failure(_):
                 //TODO: Will be made later
                 print("Произошла ошибка при авторизации.")
+                vc.dismiss(animated: true)
                 break
             }
         })

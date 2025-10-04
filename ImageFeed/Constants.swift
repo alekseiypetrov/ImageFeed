@@ -8,10 +8,6 @@ enum Constants {
     static let defaultBaseURL = URL(string: "https://api.unsplash.com")
 }
 
-extension Notification.Name {
-    static let didReceiveToken = Notification.Name("didReceiveToken")
-}
-
 class SnakeCaseJSONDecoder: JSONDecoder {
     override init() {
         super.init()
