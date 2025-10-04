@@ -18,23 +18,22 @@ final class ProfileViewController: UIViewController {
     private func configureUIElements() {
         view.backgroundColor = UIColor(named: "YP Black")
         configureProfileImage()
+        configureLabels()
         configureButton()
         guard let token = dataStorage.token else {
             print("Нет токена.")
-            configureLabels(with: Profile(from: ProfileResult(username: "", firstName: "", lastName: "", bio: nil)))
             return
         }
         ProfileService.shared.fetchProfile(token) {[weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let profile):
-                self.configureLabels(with: profile)
+                self.updateLabels(with: profile)
             case .failure(let error):
                 print("Ошибка при получении данных о профиле: \(error).")
                 break
             }
         }
-//        configureLabels()
     }
     
     private func configureProfileImage() {
@@ -54,7 +53,20 @@ final class ProfileViewController: UIViewController {
         self.avatarImageView = imageView
     }
     
-    private func configureLabels(with profile: Profile) {
+    private func updateLabels(with profile: Profile) {
+        if !profile.name.isEmpty {
+            usernameLabel.text = profile.name
+        }
+        if !profile.loginName.isEmpty {
+            userTagLabel.text = profile.loginName
+        }
+        if let bio = profile.bio,
+            !bio.isEmpty {
+            descriptionLabel.text = bio
+        }
+    }
+    
+    private func configureLabels() {
         let username = UILabel()
         let tag = UILabel()
         let description = UILabel()
@@ -66,14 +78,9 @@ final class ProfileViewController: UIViewController {
             self.view.addSubview(label)
         }
         
-        username.text = profile.name.isEmpty ? "Имя не указано" : profile.name
-        tag.text = profile.loginName.isEmpty ?"@неизвестный_пользователь" : profile.loginName
-        if let bio = profile.bio,
-           !bio.isEmpty {
-            description.text = bio
-        } else {
-            description.text = "Профиль не заполнен"
-        }
+        username.text = "Имя не указано"
+        tag.text = "@неизвестный_пользователь"
+        description.text = "Профиль не заполнен"
         
         for label in [username, description] {
             label.textColor = .white
