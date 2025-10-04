@@ -11,6 +11,7 @@
 		97272FD92E8827CA004B4068 /* WebViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97272FD82E8827CA004B4068 /* WebViewViewController.swift */; };
 		97272FDB2E88375E004B4068 /* WebViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97272FDA2E88375E004B4068 /* WebViewControllerDelegate.swift */; };
 		973A36492E9128C800D4C907 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973A36482E9128C800D4C907 /* UIBlockingProgressHUD.swift */; };
+		973A364D2E9133FB00D4C907 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973A364C2E9133FB00D4C907 /* ProfileService.swift */; };
 		974996272E685F4C000DC02F /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974996262E685F4C000DC02F /* ProfileViewController.swift */; };
 		9749962A2E699673000DC02F /* SingleImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 974996292E699673000DC02F /* SingleImageViewController.swift */; };
 		9765D3932E5B5961001A7DE4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9765D3922E5B5961001A7DE4 /* AppDelegate.swift */; };
@@ -34,6 +35,7 @@
 		97272FD82E8827CA004B4068 /* WebViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewController.swift; sourceTree = "<group>"; };
 		97272FDA2E88375E004B4068 /* WebViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewControllerDelegate.swift; sourceTree = "<group>"; };
 		973A36482E9128C800D4C907 /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
+		973A364C2E9133FB00D4C907 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		974996262E685F4C000DC02F /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		974996292E699673000DC02F /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 		9765D38F2E5B5961001A7DE4 /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,11 +74,26 @@
 				97272FD62E8811AD004B4068 /* AuthViewController.swift */,
 				97272FD82E8827CA004B4068 /* WebViewViewController.swift */,
 				97272FDA2E88375E004B4068 /* WebViewControllerDelegate.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		973A364A2E9133A500D4C907 /* ServiceAccessLayer */ = {
+			isa = PBXGroup;
+			children = (
 				97DEB7952E8ABB9600A34487 /* OAuth2Service.swift */,
 				97DEB7972E8ABF4F00A34487 /* URLSession+data.swift */,
 				97DEB7992E8AC5D000A34487 /* OAuth2TokenStorage.swift */,
 			);
-			path = Auth;
+			path = ServiceAccessLayer;
+			sourceTree = "<group>";
+		};
+		973A364B2E9133E500D4C907 /* ServiceGetProfile */ = {
+			isa = PBXGroup;
+			children = (
+				973A364C2E9133FB00D4C907 /* ProfileService.swift */,
+			);
+			path = ServiceGetProfile;
 			sourceTree = "<group>";
 		};
 		974996252E685F2D000DC02F /* Profile */ = {
@@ -115,6 +132,8 @@
 		9765D3912E5B5961001A7DE4 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				973A364B2E9133E500D4C907 /* ServiceGetProfile */,
+				973A364A2E9133A500D4C907 /* ServiceAccessLayer */,
 				973A36482E9128C800D4C907 /* UIBlockingProgressHUD.swift */,
 				97DEB79D2E8ADDB600A34487 /* SplashViewController */,
 				97272FD52E881195004B4068 /* Auth */,
@@ -235,6 +254,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9765D3972E5B5961001A7DE4 /* ImagesListViewController.swift in Sources */,
+				973A364D2E9133FB00D4C907 /* ProfileService.swift in Sources */,
 				97A12E122E66D4A200666A65 /* ImagesListCell.swift in Sources */,
 				97272FDB2E88375E004B4068 /* WebViewControllerDelegate.swift in Sources */,
 				974996272E685F4C000DC02F /* ProfileViewController.swift in Sources */,

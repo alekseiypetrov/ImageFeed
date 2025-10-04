@@ -1,7 +1,7 @@
 import UIKit
 
 final class SplashViewController: UIViewController {
-    private let storage = OAuth2TokenStorage()
+    private let storage = OAuth2TokenStorage.shared
     private let showAuthorizationScreen = "showAuthFlow"
     
     override func viewDidLoad() {
@@ -20,8 +20,8 @@ final class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if storage.token != nil {
-            print("Токен есть, переход к галерее.")
+        if let token = storage.token {
+            print("Токен есть, переход к галерее.\n\(token)")
             switchToTabBarController()
         } else {
             print("Токена нет, необходимо авторизоваться.")

@@ -1,8 +1,11 @@
 import UIKit
 
 final class OAuth2TokenStorage {
+    static let shared = OAuth2TokenStorage()
     private let dataStorage = UserDefaults.standard
     private let tokenKey = "accessToken"
+    
+    private init() {}
     
     var token: String? {
         set {

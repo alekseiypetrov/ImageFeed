@@ -4,25 +4,14 @@ struct OAuthTokenResponseBody: Decodable {
     let accessToken: String
 }
 
-class SnakeCaseJSONDecoder: JSONDecoder {
-    override init() {
-        super.init()
-        keyDecodingStrategy = .convertFromSnakeCase
-    }
-}
-
 enum AuthServiceError: Error {
     case invalidRequest
-}
-
-extension Notification.Name {
-    static let didReceiveToken = Notification.Name("didReceiveToken")
 }
 
 final class OAuth2Service {
     static let shared = OAuth2Service()
     private let tokenURL = "https://unsplash.com/oauth/token"
-    private let storage = OAuth2TokenStorage()
+    private let storage = OAuth2TokenStorage.shared
     private let urlSession = URLSession.shared
     private var lastCode: String?
     private var task: URLSessionTask?
@@ -83,6 +72,7 @@ final class OAuth2Service {
                         let response = try decoder.decode(OAuthTokenResponseBody.self, from: data)
                         self.storage.token = response.accessToken
                         NotificationCenter.default.post(name: .didReceiveToken, object: nil)
+                        print(response.accessToken)
                         print("Токен успешно получен и сохранен.")
                         completion(.success(response.accessToken))
                     } catch {
