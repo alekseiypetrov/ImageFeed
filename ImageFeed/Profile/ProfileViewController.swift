@@ -8,11 +8,26 @@ final class ProfileViewController: UIViewController {
     private weak var userTagLabel: UILabel!
     private weak var descriptionLabel: UILabel!
     
-    private let dataStorage = OAuth2TokenStorage.shared
+    private let profileService = ProfileService.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUIElements()
+        guard let profile = profileService.profile else { return }
+        updateLabels(with: profile)
+    }
+    
+    private func updateLabels(with profile: Profile) {
+        if !profile.name.isEmpty {
+            usernameLabel.text = profile.name
+        }
+        if !profile.loginName.isEmpty {
+            userTagLabel.text = profile.loginName
+        }
+        if let bio = profile.bio,
+            !bio.isEmpty {
+            descriptionLabel.text = bio
+        }
     }
     
     private func configureUIElements() {
@@ -20,20 +35,6 @@ final class ProfileViewController: UIViewController {
         configureProfileImage()
         configureLabels()
         configureButton()
-        guard let token = dataStorage.token else {
-            print("Нет токена.")
-            return
-        }
-//        ProfileService.shared.fetchProfile(token) {[weak self] result in
-//            guard let self = self else { return }
-//            switch result {
-//            case .success(let profile):
-//                self.updateLabels(with: profile)
-//            case .failure(let error):
-//                print("Ошибка при получении данных о профиле: \(error).")
-//                break
-//            }
-//        }
     }
     
     private func configureProfileImage() {
@@ -51,19 +52,6 @@ final class ProfileViewController: UIViewController {
         ])
             
         self.avatarImageView = imageView
-    }
-    
-    private func updateLabels(with profile: Profile) {
-        if !profile.name.isEmpty {
-            usernameLabel.text = profile.name
-        }
-        if !profile.loginName.isEmpty {
-            userTagLabel.text = profile.loginName
-        }
-        if let bio = profile.bio,
-            !bio.isEmpty {
-            descriptionLabel.text = bio
-        }
     }
     
     private func configureLabels() {

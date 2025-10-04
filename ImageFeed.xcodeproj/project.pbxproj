@@ -81,19 +81,11 @@
 		973A364A2E9133A500D4C907 /* ServiceAccessLayer */ = {
 			isa = PBXGroup;
 			children = (
-				97DEB7952E8ABB9600A34487 /* OAuth2Service.swift */,
-				97DEB7972E8ABF4F00A34487 /* URLSession+data.swift */,
-				97DEB7992E8AC5D000A34487 /* OAuth2TokenStorage.swift */,
+				97B8D3502E91A041003B56DC /* GetProfile */,
+				97B8D34F2E91A030003B56DC /* Network */,
+				97B8D34E2E91A028003B56DC /* OAuth2 */,
 			);
 			path = ServiceAccessLayer;
-			sourceTree = "<group>";
-		};
-		973A364B2E9133E500D4C907 /* ServiceGetProfile */ = {
-			isa = PBXGroup;
-			children = (
-				973A364C2E9133FB00D4C907 /* ProfileService.swift */,
-			);
-			path = ServiceGetProfile;
 			sourceTree = "<group>";
 		};
 		974996252E685F2D000DC02F /* Profile */ = {
@@ -132,9 +124,8 @@
 		9765D3912E5B5961001A7DE4 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
-				973A364B2E9133E500D4C907 /* ServiceGetProfile */,
+				97B8D3512E91A059003B56DC /* Views */,
 				973A364A2E9133A500D4C907 /* ServiceAccessLayer */,
-				973A36482E9128C800D4C907 /* UIBlockingProgressHUD.swift */,
 				97DEB79D2E8ADDB600A34487 /* SplashViewController */,
 				97272FD52E881195004B4068 /* Auth */,
 				974996282E699655000DC02F /* SingleImage */,
@@ -158,6 +149,39 @@
 				9765D3962E5B5961001A7DE4 /* ImagesListViewController.swift */,
 			);
 			path = ImageList;
+			sourceTree = "<group>";
+		};
+		97B8D34E2E91A028003B56DC /* OAuth2 */ = {
+			isa = PBXGroup;
+			children = (
+				97DEB7952E8ABB9600A34487 /* OAuth2Service.swift */,
+				97DEB7992E8AC5D000A34487 /* OAuth2TokenStorage.swift */,
+			);
+			path = OAuth2;
+			sourceTree = "<group>";
+		};
+		97B8D34F2E91A030003B56DC /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				97DEB7972E8ABF4F00A34487 /* URLSession+data.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		97B8D3502E91A041003B56DC /* GetProfile */ = {
+			isa = PBXGroup;
+			children = (
+				973A364C2E9133FB00D4C907 /* ProfileService.swift */,
+			);
+			path = GetProfile;
+			sourceTree = "<group>";
+		};
+		97B8D3512E91A059003B56DC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				973A36482E9128C800D4C907 /* UIBlockingProgressHUD.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		97DEB79D2E8ADDB600A34487 /* SplashViewController */ = {

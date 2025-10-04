@@ -30,6 +30,7 @@ final class ProfileService {
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     private let profileURL = URL(string: "https://api.unsplash.com/me")
+    private(set) var profile: Profile?
     
     private init() {}
     
@@ -52,6 +53,7 @@ final class ProfileService {
                         let decoder = SnakeCaseJSONDecoder()
                         let profileResult = try decoder.decode(ProfileResult.self, from: data)
                         let profile = Profile(from: profileResult)
+                        self.profile = profile
                         print("Данные о профиле получены.")
                         completion(.success(profile))
                     } catch {

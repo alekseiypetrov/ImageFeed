@@ -10,7 +10,7 @@ final class SplashViewController: UIViewController {
         
         if let token = storage.token {
             print("Токен есть, переход к галерее.\n\(token)")
-            switchToTabBarController()
+            fetchProfile(token: token)
         } else {
             print("Токена нет, необходимо авторизоваться.")
             performSegue(withIdentifier: showAuthorizationScreen, sender: nil)
