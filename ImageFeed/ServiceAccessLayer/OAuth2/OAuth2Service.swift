@@ -20,7 +20,7 @@ final class OAuth2Service {
     
     private func makeOAuthTokenRequest(code: String) -> URLRequest? {
         guard var urlComponents = URLComponents(string: tokenURL) else {
-            print("Ошибка при создании объекта URLComponents по ссылке: \(tokenURL).")
+            print("[makeOAuthTokenRequest]: Ошибка при создании объекта URLComponents по ссылке: \(tokenURL).")
             return nil
         }
         
@@ -32,30 +32,29 @@ final class OAuth2Service {
             URLQueryItem(name: "grant_type", value: "authorization_code")
         ]
         guard let url = urlComponents.url else {
-            print("Возникла ошибка при сборке URL.")
+            print("[makeOAuthTokenRequest]: Возникла ошибка при сборке URL.")
             return nil
         }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        print("POST-запрос успешно собран.")
         return request
     }
     
     func fetchOAuthToken(code: String, completion: @escaping (Swift.Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
         guard lastCode != code else {
-            print("Коды старого и нового запроса совпали. Ничего не делаем.")
+            print("[fetchOAuthToken]: Коды старого и нового запроса совпали. Ничего не делаем.")
             completion(.failure(AuthServiceError.invalidRequest))
             return
         }
         if let task = task {
-            print("Коды старого и нового запроса не совпали. Отменяем старый запрос и делаем новый.")
+            print("[fetchOAuthToken]: Коды старого и нового запроса не совпали. Отменяем старый запрос и делаем новый.")
             task.cancel()
         }
         lastCode = code
         
         guard let request = makeOAuthTokenRequest(code: code) else {
-            print("Возникла ошибка при создании POST-запроса.")
+            print("[fetchOAuthToken]: Возникла ошибка при создании POST-запроса.")
             completion(.failure(AuthServiceError.invalidRequest))
             return
         }
@@ -64,7 +63,7 @@ final class OAuth2Service {
                 guard let self = self else { return }
                 switch result {
                 case .failure(let error):
-                    print("Получена ошибка при выполнении запроса: \(error).")
+                    print("[fetchOAuthToken]: Получена ошибка при выполнении запроса: \(error).")
                     completion(.failure(error))
                 case .success(let data):
                     do {
@@ -72,10 +71,10 @@ final class OAuth2Service {
                         let response = try decoder.decode(OAuthTokenResponseBody.self, from: data)
                         self.storage.token = response.accessToken
                         print(response.accessToken)
-                        print("Токен успешно получен и сохранен.")
+                        print("[fetchOAuthToken]: Токен успешно получен и сохранен.")
                         completion(.success(response.accessToken))
                     } catch {
-                        print("Произошла ошибка при декодировании полученной информации: \(error).")
+                        print("[fetchOAuthToken]: Произошла ошибка при декодировании данных: \(error).")
                         completion(.failure(error))
                     }
                 }

@@ -37,7 +37,7 @@ final class ProfileService {
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         task?.cancel()
         guard let request = makeProfileRequest(token) else {
-            print("Ошибка при создании запроса.")
+            print("[fetchProfile]: Ошибка при создании запроса.")
             completion(.failure(ProfileServiceError.invalidRequest))
             return
         }
@@ -46,7 +46,7 @@ final class ProfileService {
                 guard let self = self else { return }
                 switch result {
                 case .failure(let error):
-                    print("Запрос данных по профилю закончился ошибкой: \(error)")
+                    print("[fetchProfile]: Запрос данных по профилю закончился ошибкой: \(error)")
                     completion(.failure(error))
                 case .success(let data):
                     do {
@@ -54,10 +54,10 @@ final class ProfileService {
                         let profileResult = try decoder.decode(ProfileResult.self, from: data)
                         let profile = Profile(from: profileResult)
                         self.profile = profile
-                        print("Данные о профиле получены.")
+                        print("[fetchProfile]: Данные о профиле получены.")
                         completion(.success(profile))
                     } catch {
-                        print("Произошла ошибка при декодировании полученной информации: \(error).")
+                        print("[fetchProfile]: Произошла ошибка при декодировании полученной информации: \(error).")
                         completion(.failure(error))
                     }
                 }
