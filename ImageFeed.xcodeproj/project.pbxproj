@@ -18,6 +18,7 @@
 		9759FD1A2E94E38E00739A94 /* URLSession+objectTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9759FD192E94E38E00739A94 /* URLSession+objectTask.swift */; };
 		9759FD1D2E9503C300739A94 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 9759FD1C2E9503C300739A94 /* Kingfisher */; };
 		9759FD202E95399300739A94 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 9759FD1F2E95399300739A94 /* SwiftKeychainWrapper */; };
+		9759FD222E95570E00739A94 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9759FD212E95570E00739A94 /* TabBarController.swift */; };
 		9765D3932E5B5961001A7DE4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9765D3922E5B5961001A7DE4 /* AppDelegate.swift */; };
 		9765D3952E5B5961001A7DE4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9765D3942E5B5961001A7DE4 /* SceneDelegate.swift */; };
 		9765D3972E5B5961001A7DE4 /* ImagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9765D3962E5B5961001A7DE4 /* ImagesListViewController.swift */; };
@@ -44,6 +45,7 @@
 		974996292E699673000DC02F /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 		9759FD172E9392BF00739A94 /* ProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageService.swift; sourceTree = "<group>"; };
 		9759FD192E94E38E00739A94 /* URLSession+objectTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+objectTask.swift"; sourceTree = "<group>"; };
+		9759FD212E95570E00739A94 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		9765D38F2E5B5961001A7DE4 /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9765D3922E5B5961001A7DE4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9765D3942E5B5961001A7DE4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				9765D39D2E5B5968001A7DE4 /* LaunchScreen.storyboard */,
 				9765D3A02E5B5968001A7DE4 /* Info.plist */,
 				97CD5D462E6CD0FC00F0A457 /* Constants.swift */,
+				9759FD212E95570E00739A94 /* TabBarController.swift */,
 			);
 			path = ImageFeed;
 			sourceTree = "<group>";
@@ -301,6 +304,7 @@
 				97DEB79C2E8ADA1500A34487 /* SplashViewController.swift in Sources */,
 				9765D3932E5B5961001A7DE4 /* AppDelegate.swift in Sources */,
 				97272FD72E8811AD004B4068 /* AuthViewController.swift in Sources */,
+				9759FD222E95570E00739A94 /* TabBarController.swift in Sources */,
 				9759FD1A2E94E38E00739A94 /* URLSession+objectTask.swift in Sources */,
 				973A36492E9128C800D4C907 /* UIBlockingProgressHUD.swift in Sources */,
 				97CD5D472E6CD0FC00F0A457 /* Constants.swift in Sources */,
