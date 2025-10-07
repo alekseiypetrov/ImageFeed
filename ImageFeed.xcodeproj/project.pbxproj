@@ -114,6 +114,14 @@
 			path = SingleImage;
 			sourceTree = "<group>";
 		};
+		9759FD262E956C2900739A94 /* TabBarController */ = {
+			isa = PBXGroup;
+			children = (
+				9759FD212E95570E00739A94 /* TabBarController.swift */,
+			);
+			path = TabBarController;
+			sourceTree = "<group>";
+		};
 		9765D3862E5B5961001A7DE4 = {
 			isa = PBXGroup;
 			children = (
@@ -134,6 +142,7 @@
 		9765D3912E5B5961001A7DE4 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				9759FD262E956C2900739A94 /* TabBarController */,
 				97B8D3512E91A059003B56DC /* Views */,
 				973A364A2E9133A500D4C907 /* ServiceAccessLayer */,
 				97DEB79D2E8ADDB600A34487 /* SplashViewController */,
@@ -148,7 +157,6 @@
 				9765D39D2E5B5968001A7DE4 /* LaunchScreen.storyboard */,
 				9765D3A02E5B5968001A7DE4 /* Info.plist */,
 				97CD5D462E6CD0FC00F0A457 /* Constants.swift */,
-				9759FD212E95570E00739A94 /* TabBarController.swift */,
 			);
 			path = ImageFeed;
 			sourceTree = "<group>";
