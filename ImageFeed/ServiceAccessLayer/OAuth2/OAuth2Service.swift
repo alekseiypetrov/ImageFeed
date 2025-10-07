@@ -58,29 +58,19 @@ final class OAuth2Service {
             completion(.failure(AuthServiceError.invalidRequest))
             return
         }
-        let task = urlSession.data(for: request) {[weak self] result in
-            DispatchQueue.main.async {
-                guard let self = self else { return }
-                switch result {
-                case .failure(let error):
-                    print("[fetchOAuthToken]: Получена ошибка при выполнении запроса: \(error).")
-                    completion(.failure(error))
-                case .success(let data):
-                    do {
-                        let decoder = SnakeCaseJSONDecoder()
-                        let response = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-                        self.storage.token = response.accessToken
-                        print(response.accessToken)
-                        print("[fetchOAuthToken]: Токен успешно получен и сохранен.")
-                        completion(.success(response.accessToken))
-                    } catch {
-                        print("[fetchOAuthToken]: Произошла ошибка при декодировании данных: \(error).")
-                        completion(.failure(error))
-                    }
-                }
-                self.task = nil
-                self.lastCode = nil
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+            guard let self = self else { return }
+            switch result {
+            case .failure(let error):
+                print("[fetchOAuthToken]: \(type(of: error)) Возникла ошибка при получении токена: \(error).")
+                completion(.failure(error))
+            case .success(let response):
+                self.storage.token = response.accessToken
+                print("[fetchOAuthToken]: Токен успешно получен и сохранен.")
+                completion(.success(response.accessToken))
             }
+            self.task = nil
+            self.lastCode = nil
         }
         self.task = task
         task.resume()

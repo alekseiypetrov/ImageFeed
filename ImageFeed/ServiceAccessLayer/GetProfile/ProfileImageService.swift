@@ -25,6 +25,17 @@ final class ProfileImageService {
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     
+    private func makeProfileImageRequest(username: String, token: String) -> URLRequest? {
+        guard let url = URL(string: "\(profileURL)\(username)") else {
+            print("[makeProfileImageRequest]: Возникла ошибка при создании URL для получения фотографии профиля.")
+            return nil
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        return request
+    }
+    
     func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         task?.cancel()
         guard let token = OAuth2TokenStorage.shared.token else {
@@ -37,41 +48,23 @@ final class ProfileImageService {
             completion(.failure(ProfileImageServiceError.invalidRequest))
             return
         }
-        let task = urlSession.data(for: request) {[weak self] result in
+        let task = urlSession.objectTask(for: request) {[weak self] (result: Result<UserResult, Error>) in
+            guard let self = self else { return }
             switch result {
             case .failure(let error):
-                print("[fetchProfileImageURL]: Возникла ошибка при выполнении запроса автарки пользователя - \(error).")
+                print("[fetchProfileImageURL]: \(type(of: error)) Возникла ошибка при получении автарки пользователя: \(error).")
                 completion(.failure(error))
-            case .success(let data):
-                do {
-                    guard let self = self else { return }
-                    let decoder = SnakeCaseJSONDecoder()
-                    let userResult = try decoder.decode(UserResult.self, from: data)
-                    self.avatarURL = userResult.profileImage.small
-                    print("[fetchProfileImageURL]: URL аватарки успешно получен.")
-                    completion(.success(userResult.profileImage.small))
-                    NotificationCenter.default.post(
-                        name: ProfileImageService.didChangeNotification,
-                        object: self, 
-                        userInfo: ["URL": userResult.profileImage.small])
-                } catch {
-                    print("[fetchProfileImageURL]: Возникла ошибка при декодировании данных: \(error).")
-                    completion(.failure(ProfileImageServiceError.decodingError))
-                }
+            case .success(let userResult):
+                self.avatarURL = userResult.profileImage.small
+                print("[fetchProfileImageURL]: URL аватарки успешно получен.")
+                completion(.success(userResult.profileImage.small))
+                NotificationCenter.default.post(
+                    name: ProfileImageService.didChangeNotification,
+                    object: self,
+                    userInfo: ["URL": userResult.profileImage.small])
             }
         }
         self.task = task
         task.resume()
-    }
-    
-    private func makeProfileImageRequest(username: String, token: String) -> URLRequest? {
-        guard let url = URL(string: "\(profileURL)\(username)") else {
-            print("[makeProfileImageRequest]: Возникла ошибка при создании URL для получения фотографии профиля.")
-            return nil
-        }
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        return request
     }
 }

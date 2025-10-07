@@ -33,6 +33,17 @@ final class AuthViewController: UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = UIColor(named: "YP Black")
     }
+    
+    private func showAuthErrorAlert(completion: (() -> Void)?) {
+        let alert = UIAlertController(
+            title: "Что-то пошло не так",
+            message: "Не удалось войти в систему",
+            preferredStyle: .alert)
+        alert.addAction(
+            UIAlertAction(title: "OK", style: .default)
+        )
+        self.present(alert, animated: true, completion: completion)
+    }
 }
 
 extension AuthViewController: WebViewControllerDelegate {
@@ -42,18 +53,15 @@ extension AuthViewController: WebViewControllerDelegate {
             UIBlockingProgressHUD.dismiss()
             guard let self = self else { return }
             switch result {
-            case .success(_):
+            case .success:
                 print("Авторизация прошла успешно, начинается перенаправление к галерее.")
                 vc.dismiss(animated: true) { [weak self] in
                     guard let self = self else { return }
                     self.delegate?.didAuthentificate(self)
                 }
-                break
-            case .failure(_):
-                //TODO: Will be made later
-                print("Произошла ошибка при авторизации.")
-                vc.dismiss(animated: true)
-                break
+            case .failure(let error):
+                print("[webViewViewController]: \(type(of: error)) Произошла ошибка при авторизации: \(error).")
+                self.showAuthErrorAlert(completion: {vc.dismiss(animated: true)})
             }
         })
     }

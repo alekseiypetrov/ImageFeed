@@ -10,55 +10,21 @@ final class ProfileViewController: UIViewController {
     
     private let profileService = ProfileService.shared
     private let imageService = ProfileImageService.shared
-    
-    override init(nibName: String?, bundle: Bundle?) {
-        super.init(nibName: nibName, bundle: bundle)
-        addObserver()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        addObserver()
-    }
-    
-    deinit {
-        removeObserver()
-    }
-    
-    private func addObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(updateAvatar(notification:)),
-            name: ProfileImageService.didChangeNotification,
-            object: nil)
-    }
-    
-    private func removeObserver() {
-        NotificationCenter.default.removeObserver(
-            self,
-            name: ProfileImageService.didChangeNotification,
-            object: nil)
-    }
-    
-    @objc
-    private func updateAvatar(notification: Notification) {
-        guard isViewLoaded,
-              let userInfo = notification.userInfo,
-              let profileImageURL = userInfo["URL"] as? String,
-              let url = URL(string: profileImageURL)
-        else { return }
-        // TODO: will be made later
-    }
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUIElements()
         guard let profile = profileService.profile else { return }
         updateLabels(with: profile)
-        if let avatarURL = imageService.avatarURL,
-           let url = URL(string: avatarURL) {
-            // TODO: will be made later
-        }
+        profileImageServiceObserver = NotificationCenter.default.addObserver(
+            forName: ProfileImageService.didChangeNotification,
+            object: nil,
+            queue: .main) {[weak self] _ in
+                guard let self = self else { return }
+                self.updateAvatar()
+            }
+        updateAvatar()
     }
     
     private func updateLabels(with profile: Profile) {
@@ -72,6 +38,13 @@ final class ProfileViewController: UIViewController {
             !bio.isEmpty {
             descriptionLabel.text = bio
         }
+    }
+    
+    private func updateAvatar() {
+        guard let profileImageURL = imageService.avatarURL,
+              let url = URL(string: profileImageURL)
+        else { return }
+        // TODO: will be made later
     }
     
     private func configureUIElements() {
