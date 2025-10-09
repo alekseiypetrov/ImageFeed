@@ -25,7 +25,7 @@ extension URLSession {
             }
             if let response = response,
                let statusCode = (response as? HTTPURLResponse)?.statusCode,
-               statusCode < 200 || statusCode >= 300 {
+               !(200..<300 ~= statusCode) {
                 print("\(NetworkError.httpStatusCode(statusCode)) Результат запроса завершился кодом: \(statusCode).")
                 fulfillCompletionOnTheMainThread(.failure(NetworkError.httpStatusCode(statusCode)))
                 return

@@ -37,12 +37,10 @@ final class SplashViewController: UIViewController {
                 return
             }
             authViewController.delegate = self
-//            authViewController.modalPresentationStyle = .fullScreen
             let navigationController = UINavigationController()
             navigationController.modalPresentationStyle = .fullScreen
             navigationController.viewControllers = [authViewController]
             self.present(navigationController, animated: true, completion: nil)
-//            self.present(authViewController, animated: true, completion: nil)
         }
     }
     
@@ -62,7 +60,7 @@ extension SplashViewController: AuthViewControllerDelegate {
             return
         }
         vc.dismiss(animated: true) { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             self.fetchProfile(token: token)
         }
     }
@@ -71,7 +69,7 @@ extension SplashViewController: AuthViewControllerDelegate {
         UIBlockingProgressHUD.show()
         profileService.fetchProfile(token) { [weak self] result in
             UIBlockingProgressHUD.dismiss()
-            guard let self = self else { return }
+            guard let self else { return }
             switch result {
             case .success(let profile):
                 self.profileImageService.fetchProfileImageURL(username: profile.username) {_ in }

@@ -1,26 +1,5 @@
 import Foundation
 
-struct Profile {
-    let username: String
-    let name: String
-    let loginName: String
-    let bio: String?
-    
-    init(from profileResult: ProfileResult) {
-        self.username = profileResult.username
-        self.name = "\(profileResult.firstName) \(profileResult.lastName)".trimmingCharacters(in: .whitespaces)
-        self.loginName = "@\(username)"
-        self.bio = profileResult.bio
-    }
-}
-
-struct ProfileResult: Codable {
-    let username: String
-    let firstName: String
-    let lastName: String
-    let bio: String?
-}
-
 enum ProfileServiceError: Error {
     case invalidRequest
 }
@@ -54,7 +33,7 @@ final class ProfileService {
         }
         let task = urlSession.objectTask(for: request) {[weak self] (result: Result<ProfileResult, Error>) in
             DispatchQueue.main.async {
-                guard let self = self else { return }
+                guard let self else { return }
                 switch result {
                 case .failure(let error):
                     print("[fetchProfile]: \(type(of: error)) Возникла ошибка при получении данных по профилю: \(error)")

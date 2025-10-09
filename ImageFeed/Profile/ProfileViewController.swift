@@ -22,7 +22,7 @@ final class ProfileViewController: UIViewController {
             forName: ProfileImageService.didChangeNotification,
             object: nil,
             queue: .main) {[weak self] _ in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.updateAvatar()
             }
         updateAvatar()

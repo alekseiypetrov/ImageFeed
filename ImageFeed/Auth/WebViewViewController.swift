@@ -17,7 +17,7 @@ final class WebViewViewController: UIViewController {
         estimatedProgressObservation = webView.observe(
             \.estimatedProgress,
              changeHandler: {[weak self] _, _ in
-                guard let self = self else { return }
+                guard let self else { return }
                 self.updateProgress()
             })
         webView.navigationDelegate = self

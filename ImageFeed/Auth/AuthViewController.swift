@@ -1,10 +1,6 @@
 import UIKit
 import ProgressHUD
 
-protocol AuthViewControllerDelegate: AnyObject {
-    func didAuthentificate(_ vc: AuthViewController)
-}
-
 final class AuthViewController: UIViewController {
     private let segueWebViewIdentifier = "ShowWebView"
     private let oauth2Service = OAuth2Service.shared
@@ -51,12 +47,12 @@ extension AuthViewController: WebViewControllerDelegate {
         UIBlockingProgressHUD.show()
         oauth2Service.fetchOAuthToken(code: code, completion: {[weak self] result in
             UIBlockingProgressHUD.dismiss()
-            guard let self = self else { return }
+            guard let self else { return }
             switch result {
             case .success:
                 print("Авторизация прошла успешно, начинается перенаправление к галерее.")
                 vc.dismiss(animated: true) { [weak self] in
-                    guard let self = self else { return }
+                    guard let self else { return }
                     self.delegate?.didAuthentificate(self)
                 }
             case .failure(let error):

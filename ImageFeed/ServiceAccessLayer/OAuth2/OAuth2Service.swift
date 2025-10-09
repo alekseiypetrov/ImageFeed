@@ -1,9 +1,5 @@
 import UIKit
 
-struct OAuthTokenResponseBody: Decodable {
-    let accessToken: String
-}
-
 enum AuthServiceError: Error {
     case invalidRequest
 }
@@ -59,7 +55,7 @@ final class OAuth2Service {
             return
         }
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
-            guard let self = self else { return }
+            guard let self else { return }
             switch result {
             case .failure(let error):
                 print("[fetchOAuthToken]: \(type(of: error)) Возникла ошибка при получении токена: \(error).")

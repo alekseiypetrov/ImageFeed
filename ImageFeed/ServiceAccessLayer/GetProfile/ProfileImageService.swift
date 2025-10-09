@@ -1,15 +1,5 @@
 import Foundation
 
-struct ProfileImage: Codable {
-    let small: String
-    let medium: String
-    let large: String
-}
-
-struct UserResult: Codable {
-    let profileImage: ProfileImage
-}
-
 enum ProfileImageServiceError: Error {
     case invalidRequest
     case tokenMissing
@@ -49,7 +39,7 @@ final class ProfileImageService {
             return
         }
         let task = urlSession.objectTask(for: request) {[weak self] (result: Result<UserResult, Error>) in
-            guard let self = self else { return }
+            guard let self else { return }
             switch result {
             case .failure(let error):
                 print("[fetchProfileImageURL]: \(type(of: error)) Возникла ошибка при получении автарки пользователя: \(error).")
