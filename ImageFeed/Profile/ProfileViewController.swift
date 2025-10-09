@@ -3,11 +3,11 @@ import Kingfisher
 
 final class ProfileViewController: UIViewController {
     
-    private weak var avatarImageView: UIImageView!
-    private weak var logoutButton: UIButton!
-    private weak var usernameLabel: UILabel!
-    private weak var userTagLabel: UILabel!
-    private weak var descriptionLabel: UILabel!
+    private weak var avatarImageView: UIImageView?
+    private weak var logoutButton: UIButton?
+    private weak var usernameLabel: UILabel?
+    private weak var userTagLabel: UILabel?
+    private weak var descriptionLabel: UILabel?
     
     private let profileService = ProfileService.shared
     private let imageService = ProfileImageService.shared
@@ -29,6 +29,10 @@ final class ProfileViewController: UIViewController {
     }
     
     private func updateLabels(with profile: Profile) {
+        guard let usernameLabel,
+              let userTagLabel,
+              let descriptionLabel
+        else { return }
         if !profile.name.isEmpty {
             usernameLabel.text = profile.name
         }
@@ -43,7 +47,8 @@ final class ProfileViewController: UIViewController {
     
     private func updateAvatar() {
         guard let profileImageURL = imageService.avatarURL,
-              let url = URL(string: profileImageURL)
+              let url = URL(string: profileImageURL),
+              let avatarImageView
         else { return }
         let placeholderImage = UIImage(systemName: "profile_stub")?
             .withTintColor(.lightGray, renderingMode: .alwaysOriginal)
@@ -117,6 +122,7 @@ final class ProfileViewController: UIViewController {
         tag.font = UIFont.systemFont(ofSize: 13)
         description.font = UIFont.systemFont(ofSize: 13)
         
+        guard let avatarImageView else { return }
         NSLayoutConstraint.activate([
             username.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 8),
             tag.topAnchor.constraint(equalTo: username.bottomAnchor, constant: 8),
@@ -132,14 +138,15 @@ final class ProfileViewController: UIViewController {
     }
     
     private func configureButton() {
-        let image = UIImage(named: "logout")
-        let button = UIButton.systemButton(with: image!, target: self, action: #selector(logoutFromAccount))
+        guard let image = UIImage(named: "logout") else { return }
+        let button = UIButton.systemButton(with: image, target: self, action: #selector(logoutFromAccount))
         
         button.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(button)
         
         button.tintColor = UIColor(named: "YP Red")
         
+        guard let avatarImageView else { return }
         NSLayoutConstraint.activate([
             button.widthAnchor.constraint(equalToConstant: 44),
             button.heightAnchor.constraint(equalToConstant: 44),

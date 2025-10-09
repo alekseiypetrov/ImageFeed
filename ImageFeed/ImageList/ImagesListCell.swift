@@ -13,9 +13,13 @@ final class ImagesListCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        guard let greyColor = UIColor(named: "YP Grey"),
+              let greyColorAlpha30 = UIColor(named: "YP Grey (Alpha 30)") else {
+            return
+        }
         gradientLayer.colors = [
-            UIColor(named: "YP Grey")!.cgColor,
-            UIColor(named: "YP Grey (Alpha 30)")!.cgColor
+            greyColor.cgColor,
+            greyColorAlpha30.cgColor
         ]
         gradientLayer.startPoint = CGPoint(x: 1, y: 0.5)
         gradientLayer.endPoint   = CGPoint(x: 0, y: 0.5)

@@ -45,9 +45,9 @@ final class ProfileImageService {
                 print("[fetchProfileImageURL]: \(type(of: error)) Возникла ошибка при получении автарки пользователя: \(error).")
                 completion(.failure(error))
             case .success(let userResult):
-                self.avatarURL = userResult.profileImage.small
+                self.avatarURL = userResult.profileImage.large
                 print("[fetchProfileImageURL]: URL аватарки успешно получен.")
-                completion(.success(userResult.profileImage.small))
+                completion(.success(userResult.profileImage.large))
                 NotificationCenter.default.post(
                     name: ProfileImageService.didChangeNotification,
                     object: self,
