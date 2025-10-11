@@ -15,7 +15,7 @@ final class ProfileService {
     
     private func makeProfileRequest(_ token: String) -> URLRequest? {
         guard let url = profileURL else {
-            print("Неккоректный URL для API.")
+            print("[makeProfileRequest]: Неккоректный URL для API.")
             return nil
         }
         var request = URLRequest(url: url)
