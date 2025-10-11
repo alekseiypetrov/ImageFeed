@@ -1,8 +1,5 @@
 import UIKit
-
-protocol AuthViewControllerDelegate: AnyObject {
-    func didAuthentificate(_ vc: AuthViewController)
-}
+import ProgressHUD
 
 final class AuthViewController: UIViewController {
     private let segueWebViewIdentifier = "ShowWebView"
@@ -32,25 +29,40 @@ final class AuthViewController: UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem?.tintColor = UIColor(named: "YP Black")
     }
+    
+    private func showAuthErrorAlert(completion: (() -> Void)?) {
+        let alert = UIAlertController(
+            title: "Что-то пошло не так",
+            message: "Не удалось войти в систему",
+            preferredStyle: .alert)
+        alert.addAction(
+            UIAlertAction(title: "OK", style: .default)
+        )
+        self.present(alert, animated: true, completion: completion)
+    }
 }
 
 extension AuthViewController: WebViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthentificateWithCode code: String) {
-        //TODO: Will be made later
+        UIBlockingProgressHUD.show()
         oauth2Service.fetchOAuthToken(code: code, completion: {[weak self] result in
-            guard let self = self else { return }
+            UIBlockingProgressHUD.dismiss()
+            guard let self else { return }
             switch result {
-            case .failure:
-                print("Произошла ошибка при авторизации.")
-                break
             case .success:
                 print("Авторизация прошла успешно, начинается перенаправление к галерее.")
-                self.delegate?.didAuthentificate(self)
+                vc.dismiss(animated: true) { [weak self] in
+                    guard let self else { return }
+                    self.delegate?.didAuthentificate(self)
+                }
+            case .failure(let error):
+                print("[webViewViewController]: \(type(of: error)) Произошла ошибка при авторизации: \(error).")
+                self.showAuthErrorAlert(completion: {vc.dismiss(animated: true)})
             }
         })
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
-        vc.dismiss(animated: true, completion: nil)
+        vc.dismiss(animated: true)
     }
 }
