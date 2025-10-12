@@ -90,12 +90,12 @@ final class ImagesListViewController: UIViewController {
     
     private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
         let photo = photos[indexPath.row]
-        
+        cell.delegate = self
+
         cell.customImageView.contentMode = .center
         cell.customImageView.clipsToBounds = false
         cell.customImageView.backgroundColor = .ypGrey
         cell.customImageView.kf.indicatorType = .activity
-        
         let imageUrl = URL(string: photo.thumbImageURL)
         cell.customImageView.kf.setImage(
             with: imageUrl,
@@ -123,6 +123,33 @@ final class ImagesListViewController: UIViewController {
     }
 }
 
+extension ImagesListViewController: ImagesListCellDelegate {
+    func imageListCellDidTapLike(_ cell: ImagesListCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let photo = photos[indexPath.row]
+        UIBlockingProgressHUD.show()
+        imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) {[weak self] result in
+            guard let self else { return }
+            switch result {
+            case .failure:
+                UIBlockingProgressHUD.dismiss()
+                let alert = UIAlertController(
+                    title: "Что-то пошло не так",
+                    message: "Не удалось изменить информацию о фотографии",
+                    preferredStyle: .alert)
+                alert.addAction(
+                    UIAlertAction(title: "OK", style: .default)
+                )
+                self.present(alert, animated: true)
+            case .success:
+                self.photos = self.imagesListService.photos
+                cell.setIsLiked(flag: self.photos[indexPath.row].isLiked)
+                print("[ImagesListViewController/imageListCellDidTapLike]: Лайк изменен.")
+                UIBlockingProgressHUD.dismiss()
+            }
+        }
+    }
+}
 
 extension ImagesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
