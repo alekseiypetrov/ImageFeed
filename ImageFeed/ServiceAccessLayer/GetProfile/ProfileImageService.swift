@@ -17,7 +17,7 @@ final class ProfileImageService {
     
     private func makeProfileImageRequest(username: String, token: String) -> URLRequest? {
         guard let url = URL(string: "\(profileURL)\(username)") else {
-            print("[makeProfileImageRequest]: Возникла ошибка при создании URL для получения фотографии профиля.")
+            print("[ProfileImageService/makeProfileImageRequest]: Возникла ошибка при создании URL для получения фотографии профиля.")
             return nil
         }
         var request = URLRequest(url: url)
@@ -29,12 +29,12 @@ final class ProfileImageService {
     func fetchProfileImageURL(username: String, _ completion: @escaping (Result<String, Error>) -> Void) {
         task?.cancel()
         guard let token = OAuth2TokenStorage.shared.token else {
-            print("[fetchProfileImageURL]: При создании запроса на аватарку пользователя не оказалось токена.")
+            print("[ProfileImageService/fetchProfileImageURL]: При создании запроса на аватарку пользователя не оказалось токена.")
             completion(.failure(ProfileImageServiceError.tokenMissing))
             return
         }
         guard let request = makeProfileImageRequest(username: username, token: token) else {
-            print("[fetchProfileImageURL]: Возникла ошибка при создании запроса.")
+            print("[ProfileImageService/fetchProfileImageURL]: Возникла ошибка при создании запроса.")
             completion(.failure(ProfileImageServiceError.invalidRequest))
             return
         }
@@ -42,11 +42,11 @@ final class ProfileImageService {
             guard let self else { return }
             switch result {
             case .failure(let error):
-                print("[fetchProfileImageURL]: \(type(of: error)) Возникла ошибка при получении автарки пользователя: \(error).")
+                print("[ProfileImageService/fetchProfileImageURL]: \(type(of: error)) Возникла ошибка при получении автарки пользователя: \(error).")
                 completion(.failure(error))
             case .success(let userResult):
                 self.avatarURL = userResult.profileImage.large
-                print("[fetchProfileImageURL]: URL аватарки успешно получен.")
+                print("[ProfileImageService/fetchProfileImageURL]: URL аватарки успешно получен.")
                 completion(.success(userResult.profileImage.large))
                 NotificationCenter.default.post(
                     name: ProfileImageService.didChangeNotification,

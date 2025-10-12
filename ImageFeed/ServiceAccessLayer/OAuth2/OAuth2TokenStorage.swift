@@ -13,17 +13,17 @@ final class OAuth2TokenStorage {
             if let token = newValue {
                 let isSuccess = dataStorage.set(token, forKey: tokenKey)
                 if isSuccess {
-                    print("Токен сохранен.")
+                    print("[OAuth2TokenStorage]: Токен сохранен.")
                 } else {
-                    print("Возникла ошибка при сохранении токена.")
+                    print("[OAuth2TokenStorage]: Возникла ошибка при сохранении токена.")
                 }
             } else {
                 dataStorage.removeObject(forKey: tokenKey)
-                print("Токен удален.")
+                print("[OAuth2TokenStorage]: Токен удален.")
             }
         }
         get {
-            print("Получение токена.")
+            print("[OAuth2TokenStorage]: Получение токена.")
             return dataStorage.string(forKey: tokenKey)
         }
     }

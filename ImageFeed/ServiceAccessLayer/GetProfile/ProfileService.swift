@@ -15,7 +15,7 @@ final class ProfileService {
     
     private func makeProfileRequest(_ token: String) -> URLRequest? {
         guard let url = profileURL else {
-            print("[makeProfileRequest]: Неккоректный URL для API.")
+            print("[ProfileService/makeProfileRequest]: Неккоректный URL для API.")
             return nil
         }
         var request = URLRequest(url: url)
@@ -27,7 +27,7 @@ final class ProfileService {
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         task?.cancel()
         guard let request = makeProfileRequest(token) else {
-            print("[fetchProfile]: Ошибка при создании запроса.")
+            print("[ProfileService/fetchProfile]: Ошибка при создании запроса.")
             completion(.failure(ProfileServiceError.invalidRequest))
             return
         }
@@ -36,12 +36,12 @@ final class ProfileService {
                 guard let self else { return }
                 switch result {
                 case .failure(let error):
-                    print("[fetchProfile]: \(type(of: error)) Возникла ошибка при получении данных по профилю: \(error)")
+                    print("[ProfileService/fetchProfile]: \(type(of: error)) Возникла ошибка при получении данных по профилю: \(error)")
                     completion(.failure(error))
                 case .success(let profileResult):
                     let profile = Profile(from: profileResult)
                     self.profile = profile
-                    print("[fetchProfile]: Данные о профиле получены.")
+                    print("[ProfileService/fetchProfile]: Данные о профиле получены.")
                     completion(.success(profile))
                 }
                 self.task = nil

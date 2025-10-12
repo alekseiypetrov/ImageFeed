@@ -50,13 +50,13 @@ extension AuthViewController: WebViewControllerDelegate {
             guard let self else { return }
             switch result {
             case .success:
-                print("Авторизация прошла успешно, начинается перенаправление к галерее.")
+                print("[Auth/webViewViewController]: Авторизация прошла успешно, начинается перенаправление к галерее.")
                 vc.dismiss(animated: true) { [weak self] in
                     guard let self else { return }
                     self.delegate?.didAuthentificate(self)
                 }
             case .failure(let error):
-                print("[webViewViewController]: \(type(of: error)) Произошла ошибка при авторизации: \(error).")
+                print("[Auth/webViewViewController]: \(type(of: error)) Произошла ошибка при авторизации: \(error).")
                 self.showAuthErrorAlert(completion: {vc.dismiss(animated: true)})
             }
         })

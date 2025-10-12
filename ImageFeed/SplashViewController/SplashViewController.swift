@@ -28,12 +28,12 @@ final class SplashViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if let token = storage.token {
-            print("Токен есть, переход к галерее.\n\(token)")
+            print("[Splash]: Токен есть, переход к галерее.\n\(token)")
             fetchProfile(token: token)
         } else {
-            print("Токена нет, необходимо авторизоваться.")
+            print("[Splash]: Токена нет, необходимо авторизоваться.")
             guard let authViewController = UIStoryboard(name: nameOfStoryboard, bundle: .main).instantiateViewController(withIdentifier: authViewIdentifier) as? AuthViewController else {
-                print("Не удалось найти AuthViewController по идентификатору")
+                print("[Splash]: Не удалось найти AuthViewController по идентификатору")
                 return
             }
             authViewController.delegate = self

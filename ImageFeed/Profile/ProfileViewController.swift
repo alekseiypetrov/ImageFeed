@@ -68,6 +68,7 @@ final class ProfileViewController: UIViewController {
     private let profileService = ProfileService.shared
     private let imageService = ProfileImageService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
+    static let didLogoutFromAccount = Notification.Name(rawValue: "LogoutFromAccountWasMade")
     
     // MARK: - Methods
     override func viewDidLoad() {
@@ -125,8 +126,8 @@ final class ProfileViewController: UIViewController {
             ]) { result in
                 switch result {
                 case .success(let value):
-                    print("Картинка загружена из: \(value.cacheType)")
-                    print("Информация об источнике: \(value.source)")
+                    print("[Profile]: Картинка загружена из: \(value.cacheType)")
+                    print("[Profile]: Информация об источнике: \(value.source)")
                 case .failure(let error):
                     print(error)
                 }
@@ -161,5 +162,26 @@ final class ProfileViewController: UIViewController {
     }
     
     @objc func logoutFromAccount() {
+        let alert = UIAlertController(
+            title: "Пока, пока!",
+            message: "Уверены, что хотите выйти?",
+            preferredStyle: .alert)
+        let yesAction = UIAlertAction(title: "Да", style: .default, 
+                                      handler: {[weak self] _ in
+            guard let self else { return }
+            UIBlockingProgressHUD.show()
+            ImageCache.default.clearCache() {
+                UIBlockingProgressHUD.dismiss()
+                print("[Profile/alert]: Кэш очищен, отправляется уведомление о деавторизации.")
+                NotificationCenter.default.post(
+                    name: ProfileViewController.didLogoutFromAccount,
+                    object: self)
+            }
+        })
+        let noAction = UIAlertAction(title: "Нет", style: .default)
+        for action in [yesAction, noAction] {
+            alert.addAction(action)
+        }
+        self.present(alert, animated: true)
     }
 }

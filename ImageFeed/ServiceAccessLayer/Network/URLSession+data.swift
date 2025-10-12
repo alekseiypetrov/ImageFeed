@@ -19,23 +19,23 @@ extension URLSession {
         }
         let task = dataTask(with: request, completionHandler: { data, response, error  in
             if let error = error {
-                print("\(NetworkError.urlRequestError(error)) При запросе получена ошибка: \(error).")
+                print("[URLSession/data]: \(NetworkError.urlRequestError(error)) При запросе получена ошибка: \(error).")
                 fulfillCompletionOnTheMainThread(.failure(NetworkError.urlRequestError(error)))
                 return
             }
             if let response = response,
                let statusCode = (response as? HTTPURLResponse)?.statusCode,
                !(200..<300 ~= statusCode) {
-                print("\(NetworkError.httpStatusCode(statusCode)) Результат запроса завершился кодом: \(statusCode).")
+                print("[URLSession/data]: \(NetworkError.httpStatusCode(statusCode)) Результат запроса завершился кодом: \(statusCode).")
                 fulfillCompletionOnTheMainThread(.failure(NetworkError.httpStatusCode(statusCode)))
                 return
             }
             if let data = data {
-                print("Запрос успешно выполнен, данные получены.")
+                print("[URLSession/data]: Запрос успешно выполнен, данные получены.")
                 fulfillCompletionOnTheMainThread(.success(data))
                 return
             }
-            print("\(NetworkError.urlSessionError) При запросе обнаружена неопознанная ошибка.")
+            print("[URLSession/data]: \(NetworkError.urlSessionError) При запросе обнаружена неопознанная ошибка.")
             fulfillCompletionOnTheMainThread(.failure(NetworkError.urlSessionError))
             return
         })
