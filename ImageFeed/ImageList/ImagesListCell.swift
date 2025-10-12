@@ -1,42 +1,15 @@
 import UIKit
+import Kingfisher
 
 final class ImagesListCell: UITableViewCell {
     static let reuseIdentifier = "ImagesListCell"
-    static let activeImageOfLikeButton = UIImage(named: "Active")
-    static let noActiveImageOfLikeButton = UIImage(named: "No Active")
-    
-    private let gradientLayer = CAGradientLayer()
     
     @IBOutlet weak var customImageView: UIImageView!
     @IBOutlet weak var dateTitle: UILabel!
     @IBOutlet weak var likeButton: UIButton!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        guard let greyColor = UIColor(named: "YP Grey"),
-              let greyColorAlpha30 = UIColor(named: "YP Grey (Alpha 30)") else {
-            return
-        }
-        gradientLayer.colors = [
-            greyColor.cgColor,
-            greyColorAlpha30.cgColor
-        ]
-        gradientLayer.startPoint = CGPoint(x: 1, y: 0.5)
-        gradientLayer.endPoint   = CGPoint(x: 0, y: 0.5)
-        customImageView.layer.insertSublayer(gradientLayer, at: 0)
-        gradientLayer.isHidden = true
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        gradientLayer.frame = customImageView.bounds
-    }
-    
-    func showGradient() {
-        gradientLayer.isHidden = false
-    }
-    
-    func hideGradient() {
-        gradientLayer.isHidden = true
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        customImageView.kf.cancelDownloadTask()
     }
 }

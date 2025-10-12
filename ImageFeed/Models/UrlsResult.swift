@@ -1,7 +1,7 @@
 struct UrlsResult: Codable {
     let raw: String
     let full: String
-    let reqular: String
+    let regular: String
     let small: String
     let thumb: String
 }

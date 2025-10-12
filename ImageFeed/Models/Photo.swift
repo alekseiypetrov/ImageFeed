@@ -12,7 +12,7 @@ struct Photo {
     init(from photoResult: PhotoResult) {
         id = photoResult.id
         size = CGSize(width: photoResult.width, height: photoResult.height)
-        createdAt = DateFormatter().date(from: photoResult.createdAt)
+        createdAt = ISO8601DateFormatter().date(from: photoResult.createdAt)
         welcomeDescription = photoResult.description
         isLiked = photoResult.likedByUser
         thumbImageURL = photoResult.urls.thumb

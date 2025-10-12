@@ -1,14 +1,8 @@
 import UIKit
+import Kingfisher
 
 final class SingleImageViewController: UIViewController {
-    var image: UIImage? {
-        didSet {
-            guard isViewLoaded, let image else { return }
-            imageView.image = image
-            imageView.frame.size = image.size
-            rescaleAndCenterImageInScrollView(image: image)
-        }
-    }
+    var imageUrl: URL?
     
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var scrollView: UIScrollView!
@@ -17,10 +11,19 @@ final class SingleImageViewController: UIViewController {
         super.viewDidLoad()
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
-        guard let image else { return }
-        imageView.image = image
-        imageView.frame.size = image.size
-        rescaleAndCenterImageInScrollView(image: image)
+        imageView.kf.setImage(
+            with: imageUrl,
+            completionHandler: {[weak self] result in
+                guard let self else { return }
+                switch result {
+                case .failure:
+                    self.dismiss(animated: true, completion: nil)
+                case .success(let imageResult):
+                    let image = imageResult.image
+                    self.imageView.frame.size = image.size
+                    self.rescaleAndCenterImageInScrollView(image: image)
+                }
+            })
     }
     
     @IBAction func didTapBackButton(_ sender: Any) {
@@ -28,7 +31,7 @@ final class SingleImageViewController: UIViewController {
     }
     
     @IBAction func didTapShareButton(_ sender: Any) {
-        guard let image else { return }
+        guard let image = imageView.image else { return }
         let activityView = UIActivityViewController(
             activityItems: [image, "ImageFeed (YP)"],
             applicationActivities: nil
@@ -44,7 +47,9 @@ final class SingleImageViewController: UIViewController {
         let imageSize = image.size
         let hScale = visibleRectSize.width / imageSize.width
         let vScale = visibleRectSize.height / imageSize.height
-        let scale = max(maxZoomScale, min(minZoomScale, max(hScale, vScale))) // min(maxZoomScale, max(minZoomScale, min(hScale, vScale)))
+        let scale = min(maxZoomScale, max(minZoomScale, min(hScale, vScale)))
+        // max(maxZoomScale, min(minZoomScale, max(hScale, vScale)))
+        // min(maxZoomScale, max(minZoomScale, min(hScale, vScale)))
         scrollView.setZoomScale(scale, animated: false)
         scrollView.layoutIfNeeded()
         let newContentSize = scrollView.contentSize
