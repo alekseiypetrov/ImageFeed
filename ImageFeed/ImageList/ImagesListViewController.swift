@@ -28,7 +28,7 @@ final class ImagesListViewController: UIViewController {
         return formatter
     }()
     private var imagesListServiceObserver: NSObjectProtocol?
-    private var imagesListService = ImagesListService()
+    private var imagesListService = ImagesListService.shared
     var photos: [Photo] = []
     
     override func viewDidLoad() {

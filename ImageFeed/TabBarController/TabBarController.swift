@@ -35,7 +35,7 @@ final class TabBarController: UITabBarController {
     
     private func setupObserver() {
         NotificationCenter.default.addObserver(
-            forName: ProfileViewController.didLogoutFromAccount,
+            forName: ProfileLogoutService.didLogoutFromAccount,
             object: nil,
             queue: .main,
             using: {[weak self] _ in

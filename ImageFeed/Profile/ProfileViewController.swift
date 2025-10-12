@@ -67,8 +67,8 @@ final class ProfileViewController: UIViewController {
     // MARK: - Properties
     private let profileService = ProfileService.shared
     private let imageService = ProfileImageService.shared
+    private let profileLogoutService = ProfileLogoutService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
-    static let didLogoutFromAccount = Notification.Name(rawValue: "LogoutFromAccountWasMade")
     
     // MARK: - Methods
     override func viewDidLoad() {
@@ -169,14 +169,7 @@ final class ProfileViewController: UIViewController {
         let yesAction = UIAlertAction(title: "Да", style: .default, 
                                       handler: {[weak self] _ in
             guard let self else { return }
-            UIBlockingProgressHUD.show()
-            ImageCache.default.clearCache() {
-                UIBlockingProgressHUD.dismiss()
-                print("[Profile/alert]: Кэш очищен, отправляется уведомление о деавторизации.")
-                NotificationCenter.default.post(
-                    name: ProfileViewController.didLogoutFromAccount,
-                    object: self)
-            }
+            profileLogoutService.logout()
         })
         let noAction = UIAlertAction(title: "Нет", style: .default)
         for action in [yesAction, noAction] {

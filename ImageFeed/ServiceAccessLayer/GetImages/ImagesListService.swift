@@ -8,7 +8,8 @@ final class ImagesListService {
     private struct LikeResult: Codable {}
     
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
-    
+    static let shared = ImagesListService()
+    private init() {}
     private let imageListUrl = "https://api.unsplash.com/photos"
     private(set) var photos: [Photo] = []
     private var lastLoadedPage: Int?
