@@ -11,19 +11,45 @@ final class SingleImageViewController: UIViewController {
         super.viewDidLoad()
         scrollView.minimumZoomScale = 0.1
         scrollView.maximumZoomScale = 1.25
+        loadImage()
+    }
+    
+    private func loadImage() {
+        guard let imageUrl else {
+            self.dismiss(animated: true, completion: nil)
+            return
+        }
+        UIBlockingProgressHUD.show()
         imageView.kf.setImage(
             with: imageUrl,
             completionHandler: {[weak self] result in
+                UIBlockingProgressHUD.dismiss()
                 guard let self else { return }
                 switch result {
                 case .failure:
-                    self.dismiss(animated: true, completion: nil)
+                    self.showError()
                 case .success(let imageResult):
-                    let image = imageResult.image
-                    self.imageView.frame.size = image.size
-                    self.rescaleAndCenterImageInScrollView(image: image)
+                    self.rescaleAndCenterImageInScrollView(image: imageResult.image)
                 }
             })
+    }
+    
+    private func showError() {
+        let alert = UIAlertController(
+            title: "Что-то пошло не так",
+            message: "Попробовать ещё раз?",
+            preferredStyle: .alert)
+        alert.addAction(
+            UIAlertAction(title: "Повторить", style: .default, handler: {[weak self] _ in
+                guard let self else { return }
+                self.loadImage()
+            }))
+        alert.addAction(
+            UIAlertAction(title: "Не надо", style: .default, handler: {[weak self] _ in
+                guard let self else { return }
+                self.dismiss(animated: true, completion: nil)
+            }))
+        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func didTapBackButton(_ sender: Any) {
@@ -40,6 +66,7 @@ final class SingleImageViewController: UIViewController {
     }
     
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
+        imageView.frame.size = image.size
         let minZoomScale = scrollView.minimumZoomScale
         let maxZoomScale = scrollView.maximumZoomScale
         view.layoutIfNeeded()
