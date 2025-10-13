@@ -83,7 +83,7 @@ final class ProfileViewController: UIViewController {
         profileImageServiceObserver = NotificationCenter.default.addObserver(
             forName: ProfileImageService.didChangeNotification,
             object: nil,
-            queue: .main) {[weak self] _ in
+            queue: .main) { [weak self] _ in
                 guard let self else { return }
                 self.updateAvatar()
             }
@@ -167,7 +167,7 @@ final class ProfileViewController: UIViewController {
             message: "Уверены, что хотите выйти?",
             preferredStyle: .alert)
         let yesAction = UIAlertAction(title: "Да", style: .default, 
-                                      handler: {[weak self] _ in
+                                      handler: { [weak self] _ in
             guard let self else { return }
             profileLogoutService.logout()
         })

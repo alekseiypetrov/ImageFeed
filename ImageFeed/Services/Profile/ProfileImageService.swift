@@ -38,7 +38,7 @@ final class ProfileImageService {
             completion(.failure(ProfileImageServiceError.invalidRequest))
             return
         }
-        let task = urlSession.objectTask(for: request) {[weak self] (result: Result<UserResult, Error>) in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
             guard let self else { return }
             switch result {
             case .failure(let error):

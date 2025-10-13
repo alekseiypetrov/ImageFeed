@@ -31,7 +31,7 @@ final class ProfileService {
             completion(.failure(ProfileServiceError.invalidRequest))
             return
         }
-        let task = urlSession.objectTask(for: request) {[weak self] (result: Result<ProfileResult, Error>) in
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
             DispatchQueue.main.async {
                 guard let self else { return }
                 switch result {

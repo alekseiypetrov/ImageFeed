@@ -18,7 +18,7 @@ final class ImagesListService {
     
     private func makePhotosRequest(forPage page: Int) -> URLRequest? {
         guard let url = URL(string: "\(imageListUrl)?client_id=\(Constants.accessKey)&page=\(page)") else {
-            print("[ImagesListService/makePhotosRequest]: Неккоректный URL для API.")
+            print("[ImagesListService/makePhotosRequest]: Некорректный URL для API.")
             return nil
         }
         var request = URLRequest(url: url)
@@ -39,16 +39,17 @@ final class ImagesListService {
     }
     
     func fetchPhotosNextPage() {
-        if self.task != nil {
+        guard task == nil else {
             print("[ImagesListService/fetchPhotosNextPage]: Страница уже загружается, отмена повторного задания.")
             return
         }
+        
         let pageNumber = (lastLoadedPage ?? 0) + 1
         guard let request = makePhotosRequest(forPage: pageNumber) else {
             print("[ImagesListService/fetchPhotosNextPage]: Возникла ошибка при создании запроса.")
             return
         }
-        let task = URLSession.shared.objectTask(for: request) {[weak self] (result: Result<[PhotoResult], Error>) in
+        let task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<[PhotoResult], Error>) in
             guard let self else { return }
             switch result {
             case .failure(let error):
@@ -60,7 +61,8 @@ final class ImagesListService {
                 NotificationCenter.default.post(
                     name: ImagesListService.didChangeNotification,
                     object: self,
-                    userInfo: ["photos": self.photos])
+                    userInfo: ["photos": self.photos]
+                )
             }
             self.task = nil
         }
@@ -82,7 +84,7 @@ final class ImagesListService {
         request.httpMethod = httpMethod
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         
-        let task = URLSession.shared.objectTask(for: request) {[weak self] (result: Result<LikeResult, Error>) in
+        let task = URLSession.shared.objectTask(for: request) { [weak self] (result: Result<LikeResult, Error>) in
             guard let self else { return }
             switch result {
             case .failure(let error):

@@ -47,7 +47,7 @@ final class ImagesListViewController: UIViewController {
             forName: ImagesListService.didChangeNotification,
             object: nil,
             queue: .main,
-            using: {[weak self] _ in
+            using: { [weak self] _ in
                 guard let self else { return }
                 self.updateTableViewAnimated()
             })
@@ -128,7 +128,7 @@ extension ImagesListViewController: ImagesListCellDelegate {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         let photo = photos[indexPath.row]
         UIBlockingProgressHUD.show()
-        imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) {[weak self] result in
+        imagesListService.changeLike(photoId: photo.id, isLike: !photo.isLiked) { [weak self] result in
             guard let self else { return }
             switch result {
             case .failure:

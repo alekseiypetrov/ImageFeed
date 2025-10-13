@@ -22,7 +22,7 @@ final class SingleImageViewController: UIViewController {
         UIBlockingProgressHUD.show()
         imageView.kf.setImage(
             with: imageUrl,
-            completionHandler: {[weak self] result in
+            completionHandler: { [weak self] result in
                 UIBlockingProgressHUD.dismiss()
                 guard let self else { return }
                 switch result {
@@ -40,12 +40,12 @@ final class SingleImageViewController: UIViewController {
             message: "Попробовать ещё раз?",
             preferredStyle: .alert)
         alert.addAction(
-            UIAlertAction(title: "Повторить", style: .default, handler: {[weak self] _ in
+            UIAlertAction(title: "Повторить", style: .default, handler: { [weak self] _ in
                 guard let self else { return }
                 self.loadImage()
             }))
         alert.addAction(
-            UIAlertAction(title: "Не надо", style: .default, handler: {[weak self] _ in
+            UIAlertAction(title: "Не надо", style: .default, handler: { [weak self] _ in
                 guard let self else { return }
                 self.dismiss(animated: true, completion: nil)
             }))

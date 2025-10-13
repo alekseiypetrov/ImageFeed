@@ -38,7 +38,7 @@ final class TabBarController: UITabBarController {
             forName: ProfileLogoutService.didLogoutFromAccount,
             object: nil,
             queue: .main,
-            using: {[weak self] _ in
+            using: { [weak self] _ in
                 guard let self else { return }
                 self.deleteTokenAndRestart()
             })

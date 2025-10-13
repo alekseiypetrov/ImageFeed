@@ -45,7 +45,7 @@ final class AuthViewController: UIViewController {
 extension AuthViewController: WebViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthentificateWithCode code: String) {
         UIBlockingProgressHUD.show()
-        oauth2Service.fetchOAuthToken(code: code, completion: {[weak self] result in
+        oauth2Service.fetchOAuthToken(code: code, completion: { [weak self] result in
             UIBlockingProgressHUD.dismiss()
             guard let self else { return }
             switch result {
