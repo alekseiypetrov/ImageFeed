@@ -18,7 +18,8 @@ final class AuthViewController: UIViewController {
             assertionFailure("Failed to prepare for \(segueWebViewIdentifier).")
             return
         }
-        let webViewPresenter = WebViewPresenter()
+        let authHelper = AuthHelper()
+        let webViewPresenter = WebViewPresenter(authHelper: authHelper)
         webViewPresenter.view = webViewController
         webViewController.presenter = webViewPresenter
         webViewController.delegate = self
