@@ -20,9 +20,9 @@ final class ImagesListCell: UITableViewCell {
     
     // MARK: - Outlets
     
-    @IBOutlet private weak var customImageView: UIImageView!
-    @IBOutlet private weak var dateTitle: UILabel!
-    @IBOutlet private weak var likeButton: UIButton!
+    @IBOutlet weak var customImageView: UIImageView!
+    @IBOutlet weak var dateTitle: UILabel!
+    @IBOutlet weak var likeButton: UIButton!
     
     // MARK: - Lifecycle
     

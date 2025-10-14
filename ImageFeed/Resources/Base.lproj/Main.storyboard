@@ -206,7 +206,7 @@
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <segue destination="72x-Sp-8z3" kind="show" identifier="ShowWebView" id="Q2q-vD-Hqp"/>
+                                    <segue destination="72x-Sp-8z3" kind="presentation" identifier="ShowWebView" modalPresentationStyle="fullScreen" modalTransitionStyle="coverVertical" id="Q2q-vD-Hqp"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -221,6 +221,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="1gx-Lm-prV"/>
+                    <connections>
+                        <outlet property="logButton" destination="Xvx-rM-qlm" id="n2X-bo-Xtb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HFf-3v-gec" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -235,7 +238,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2QI-dQ-4wE">
-                                <rect key="frame" x="0.0" y="103" width="393" height="749"/>
+                                <rect key="frame" x="0.0" y="48" width="393" height="804"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -243,31 +246,46 @@
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="gZc-C2-8Bn">
-                                <rect key="frame" x="0.0" y="103" width="393" height="4"/>
+                                <rect key="frame" x="0.0" y="44" width="393" height="4"/>
                                 <color key="progressTintColor" name="YP Black"/>
                             </progressView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vb9-AC-lLK">
+                                <rect key="frame" x="0.0" y="0.0" width="64" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="Egj-ny-n2S"/>
+                                    <constraint firstAttribute="width" constant="64" id="nHI-nO-Sha"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="nav_bar_back_black"/>
+                                <connections>
+                                    <action selector="didTapBackButton:" destination="72x-Sp-8z3" eventType="touchUpInside" id="8hw-Bc-MgS"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="US9-9D-C7e"/>
                         <color key="backgroundColor" name="YP White"/>
                         <constraints>
-                            <constraint firstItem="gZc-C2-8Bn" firstAttribute="top" secondItem="US9-9D-C7e" secondAttribute="top" id="2gR-4G-oh6"/>
-                            <constraint firstItem="gZc-C2-8Bn" firstAttribute="leading" secondItem="US9-9D-C7e" secondAttribute="leading" id="8Eg-U1-L0P"/>
-                            <constraint firstItem="2QI-dQ-4wE" firstAttribute="top" secondItem="US9-9D-C7e" secondAttribute="top" id="DGE-td-46A"/>
-                            <constraint firstItem="2QI-dQ-4wE" firstAttribute="leading" secondItem="US9-9D-C7e" secondAttribute="leading" id="JD6-So-LFv"/>
-                            <constraint firstAttribute="bottom" secondItem="2QI-dQ-4wE" secondAttribute="bottom" id="OdD-cb-k5y"/>
-                            <constraint firstItem="gZc-C2-8Bn" firstAttribute="trailing" secondItem="US9-9D-C7e" secondAttribute="trailing" id="T7U-vw-BYx"/>
-                            <constraint firstItem="2QI-dQ-4wE" firstAttribute="trailing" secondItem="US9-9D-C7e" secondAttribute="trailing" id="hc2-N5-1DQ"/>
+                            <constraint firstItem="Vb9-AC-lLK" firstAttribute="leading" secondItem="US9-9D-C7e" secondAttribute="leading" id="IFt-9W-dor"/>
+                            <constraint firstItem="2QI-dQ-4wE" firstAttribute="top" secondItem="gZc-C2-8Bn" secondAttribute="bottom" id="JSy-aI-j5O"/>
+                            <constraint firstItem="2QI-dQ-4wE" firstAttribute="bottom" secondItem="US9-9D-C7e" secondAttribute="bottom" id="KTl-OJ-XX2"/>
+                            <constraint firstItem="gZc-C2-8Bn" firstAttribute="leading" secondItem="US9-9D-C7e" secondAttribute="leading" id="N5S-xt-Z50"/>
+                            <constraint firstItem="gZc-C2-8Bn" firstAttribute="top" secondItem="Vb9-AC-lLK" secondAttribute="bottom" id="NeO-pX-hje"/>
+                            <constraint firstItem="2QI-dQ-4wE" firstAttribute="leading" secondItem="US9-9D-C7e" secondAttribute="leading" id="Oru-Ag-I1l"/>
+                            <constraint firstItem="Vb9-AC-lLK" firstAttribute="top" secondItem="US9-9D-C7e" secondAttribute="top" id="SH0-rS-gwp"/>
+                            <constraint firstItem="gZc-C2-8Bn" firstAttribute="trailing" secondItem="US9-9D-C7e" secondAttribute="trailing" id="iY5-vi-Gwy"/>
+                            <constraint firstItem="2QI-dQ-4wE" firstAttribute="trailing" secondItem="US9-9D-C7e" secondAttribute="trailing" id="wAZ-Sp-fej"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="9L6-VV-lw0"/>
                     <connections>
+                        <outlet property="navigationBarButton" destination="Vb9-AC-lLK" id="PBa-0x-Oxe"/>
                         <outlet property="progressView" destination="gZc-C2-8Bn" id="hd2-Ym-KWV"/>
                         <outlet property="webView" destination="2QI-dQ-4wE" id="JnJ-xF-nkg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eqw-5y-ooR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1918" y="-872"/>
+            <point key="canvasLocation" x="1916.7938931297708" y="-872.53521126760563"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="rzj-xd-Krr">
@@ -312,6 +330,7 @@
         <image name="Logo_of_Unsplash" width="60" height="60"/>
         <image name="heart.fill" catalog="system" width="128" height="107"/>
         <image name="nav_bar_back" width="24" height="24"/>
+        <image name="nav_bar_back_black" width="24" height="24"/>
         <image name="share_button" width="50" height="50"/>
         <image name="tab_editorial_active" width="30" height="30"/>
         <namedColor name="YP Black">
