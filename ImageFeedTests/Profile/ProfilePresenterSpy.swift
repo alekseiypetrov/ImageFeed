@@ -13,10 +13,6 @@ final class ProfilePresenterSpy: ProfilePresenterProtocol {
     
     func getProfileImageURL() { }
     
-    func showAlert(on viewController: UIViewController) { 
-        didShowAlert = true
-    }
-    
     func logoutFromAccount() {
         didGetATaskToLogout = true
     }

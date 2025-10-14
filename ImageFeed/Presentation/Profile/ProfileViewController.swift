@@ -6,7 +6,6 @@ protocol ProfileViewControllerProtocol: AnyObject {
     
     func updateLabels(with profile: Profile)
     func updateAvatar(url: URL)
-    func didConfirmLogout()
 }
 
 final class ProfileViewController: UIViewController, ProfileViewControllerProtocol {
@@ -103,8 +102,8 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
     
     // MARK: - Actions
     
-    @objc func logoutButtonPressed() {
-        presenter?.showAlert(on: self)
+    @objc private func logoutButtonPressed() {
+        showAlert()
     }
     
     // MARK: - Public Methods
@@ -112,10 +111,6 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
     func configure(_ presenter: ProfilePresenterProtocol) {
         self.presenter = presenter
         presenter.view = self
-    }
-    
-    func didConfirmLogout() {
-        presenter?.logoutFromAccount()
     }
     
     func updateLabels(with profile: Profile) {
@@ -141,6 +136,23 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
     }
     
     // MARK: - Private Methods
+    
+    private func showAlert() {
+        let alert = UIAlertController(
+            title: "Пока, пока!",
+            message: "Уверены, что хотите выйти?",
+            preferredStyle: .alert)
+        let yesAction = UIAlertAction(title: "Да", style: .default,
+                                      handler: { [weak self] _ in
+            guard let self else { return }
+            self.presenter?.logoutFromAccount()
+        })
+        let noAction = UIAlertAction(title: "Нет", style: .default)
+        for action in [yesAction, noAction] {
+            alert.addAction(action)
+        }
+        self.present(alert, animated: true)
+    }
     
     private func setupObserver() {
         profileImageServiceObserver = NotificationCenter.default.addObserver(

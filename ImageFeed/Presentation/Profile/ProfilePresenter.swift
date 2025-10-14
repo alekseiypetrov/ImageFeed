@@ -1,11 +1,10 @@
-import UIKit
+import Foundation
 
 protocol ProfilePresenterProtocol: AnyObject {
     var view: ProfileViewControllerProtocol? { get set }
     
     func viewDidLoad()
     func getProfileImageURL()
-    func showAlert(on viewController: UIViewController)
     func logoutFromAccount()
 }
 
@@ -33,23 +32,6 @@ final class ProfilePresenter: ProfilePresenterProtocol {
               let url = URL(string: profileImageURL)
         else { return }
         view?.updateAvatar(url: url)
-    }
-    
-    func showAlert(on viewController: UIViewController) {
-        let alert = UIAlertController(
-            title: "Пока, пока!",
-            message: "Уверены, что хотите выйти?",
-            preferredStyle: .alert)
-        let yesAction = UIAlertAction(title: "Да", style: .default,
-                                      handler: { [weak self] _ in
-            guard let self else { return }
-            self.view?.didConfirmLogout()
-        })
-        let noAction = UIAlertAction(title: "Нет", style: .default)
-        for action in [yesAction, noAction] {
-            alert.addAction(action)
-        }
-        viewController.present(alert, animated: true)
     }
     
     func logoutFromAccount() { 

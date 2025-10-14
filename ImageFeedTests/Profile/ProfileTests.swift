@@ -44,59 +44,33 @@ final class ProfileTests: XCTestCase {
         XCTAssertTrue(sut.didUpdatedLabels)
     }
     
-    func testPresenterShowAlert() {
+    func testViewControllerCalledLogoutFromAccount() {
         // given
-        let viewController = ProfileViewController()
+        let viewController = ProfileViewControllerStub()
         let sut = ProfilePresenterSpy()
-        viewController.configure(sut)
+        viewController.presenter = sut
+        sut.view = viewController
+        viewController.alertResponse = true
         
         // when
-        viewController.logoutButtonPressed()
-        
-        // then
-        XCTAssertTrue(sut.didShowAlert)
-    }
-    
-    func testPositiveResponseFromAlert() {
-        // given
-        let sut = ProfileViewControllerSpy()
-        let presenter = ProfilePresenterStub()
-        sut.presenter = presenter
-        presenter.view = sut
-        presenter.alertResponse = true
-        
-        // when
-        presenter.showAlert(on: UIViewController())
-        
-        // then
-        XCTAssertTrue(sut.didGetResponseFromAlert)
-    }
-    
-    func testNegativeResponseFromAlert() {
-        // given
-        let sut = ProfileViewControllerSpy()
-        let presenter = ProfilePresenterStub()
-        sut.presenter = presenter
-        presenter.view = sut
-        presenter.alertResponse = false
-        
-        // when
-        presenter.showAlert(on: UIViewController())
-        
-        // then
-        XCTAssertFalse(sut.didGetResponseFromAlert)
-    }
-    
-    func testPresenterGetATaskToLogout() {
-        // given
-        let viewController = ProfileViewController()
-        let sut = ProfilePresenterSpy()
-        viewController.configure(sut)
-        
-        // when
-        viewController.didConfirmLogout()
+        viewController.showAlert()
         
         // then
         XCTAssertTrue(sut.didGetATaskToLogout)
+    }
+    
+    func testViewControllerDidNotCalledLogoutFromAccount() {
+        // given
+        let viewController = ProfileViewControllerStub()
+        let sut = ProfilePresenterSpy()
+        viewController.presenter = sut
+        sut.view = viewController
+        viewController.alertResponse = false
+        
+        // when
+        viewController.showAlert()
+        
+        // then
+        XCTAssertFalse(sut.didGetATaskToLogout)
     }
 }

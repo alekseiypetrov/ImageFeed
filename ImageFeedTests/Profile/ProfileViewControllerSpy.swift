@@ -5,7 +5,6 @@ final class ProfileViewControllerSpy: ProfileViewControllerProtocol {
     var presenter: ProfilePresenterProtocol?
     var didUpdatedLabels: Bool = false
     var didUpdatedAvatar: Bool = false
-    var didGetResponseFromAlert: Bool = false
     
     func updateLabels(with profile: Profile) {
         didUpdatedLabels = true
@@ -13,9 +12,5 @@ final class ProfileViewControllerSpy: ProfileViewControllerProtocol {
     
     func updateAvatar(url: URL) {
         didUpdatedAvatar = true
-    }
-    
-    func didConfirmLogout() {
-        didGetResponseFromAlert = true
     }
 }

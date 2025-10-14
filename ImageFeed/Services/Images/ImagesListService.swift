@@ -5,38 +5,26 @@ enum ImagesListServiceError: Error {
 }
 
 final class ImagesListService {
-    private struct LikeResult: Codable {}
+    
+    // MARK: - Static Properties
     
     static let didChangeNotification = Notification.Name(rawValue: "ImagesListServiceDidChange")
     static let shared = ImagesListService()
-    private init() {}
+    
+    // MARK: - Private Properties
+    
+    private struct LikeResult: Codable {}
     private let imageListUrl = "https://api.unsplash.com/photos"
     private(set) var photos: [Photo] = []
     private var lastLoadedPage: Int?
     private var task: URLSessionTask?
     private let storage = OAuth2TokenStorage.shared
     
-    private func makePhotosRequest(forPage page: Int) -> URLRequest? {
-        guard let url = URL(string: "\(imageListUrl)?client_id=\(Constants.accessKey)&page=\(page)") else {
-            print("[ImagesListService/makePhotosRequest]: Некорректный URL для API.")
-            return nil
-        }
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        guard let token = storage.token else {
-            print("[ImagesListService/makePhotosRequest]: Нет токена, выполняется публичный запрос.")
-            return request
-        }
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        print("[ImagesListService/makePhotosRequest]: Есть токен, выполняется авторизованный запрос.")
-        return request
-    }
+    // MARK: - Initializer
     
-    private func convert(from photoResults: [PhotoResult]) {
-        photoResults.forEach {
-            photos.append(Photo(from: $0))
-        }
-    }
+    private init() {}
+    
+    // MARK: - Public Methods
     
     func fetchPhotosNextPage() {
         guard task == nil else {
@@ -101,5 +89,29 @@ final class ImagesListService {
             }
         }
         task.resume()
+    }
+    
+    // MARK: - Private Methods
+    
+    private func makePhotosRequest(forPage page: Int) -> URLRequest? {
+        guard let url = URL(string: "\(imageListUrl)?client_id=\(Constants.accessKey)&page=\(page)") else {
+            print("[ImagesListService/makePhotosRequest]: Некорректный URL для API.")
+            return nil
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        guard let token = storage.token else {
+            print("[ImagesListService/makePhotosRequest]: Нет токена, выполняется публичный запрос.")
+            return request
+        }
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        print("[ImagesListService/makePhotosRequest]: Есть токен, выполняется авторизованный запрос.")
+        return request
+    }
+    
+    private func convert(from photoResults: [PhotoResult]) {
+        photoResults.forEach {
+            photos.append(Photo(from: $0))
+        }
     }
 }
