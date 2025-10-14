@@ -8,12 +8,22 @@ protocol WebViewPresenterProtocol: AnyObject {
 }
 
 final class WebViewPresenter: WebViewPresenterProtocol {
-    weak var view: WebViewViewControllerProtocol?
+    
+    // MARK: - Private Properties
+    
     private let authHelper: AuthHelperProtocol
+    
+    // MARK: - Public Properties
+    
+    weak var view: WebViewViewControllerProtocol?
+    
+    // MARK: - Initializer
     
     init(authHelper: AuthHelperProtocol) {
         self.authHelper = authHelper
     }
+    
+    // MARK: - Public Methods
     
     func viewDidLoad() {
         guard let request = authHelper.authRequest() else {

@@ -10,4 +10,11 @@ struct Profile {
         self.loginName = "@\(username)"
         self.bio = "\(profileResult.bio ?? "")".trimmingCharacters(in: .whitespaces)
     }
+    
+    init(username: String, name: String, loginName: String, bio: String) {
+        self.username = username
+        self.name = name
+        self.loginName = loginName
+        self.bio = bio
+    }
 }

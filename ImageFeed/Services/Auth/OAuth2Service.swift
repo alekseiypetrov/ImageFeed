@@ -5,36 +5,24 @@ enum AuthServiceError: Error {
 }
 
 final class OAuth2Service {
+    
+    // MARK: - Static Properties
+    
     static let shared = OAuth2Service()
+    
+    // MARK: - Private Properties
+    
     private let tokenURL = "https://unsplash.com/oauth/token"
     private let storage = OAuth2TokenStorage.shared
     private let urlSession = URLSession.shared
     private var lastCode: String?
     private var task: URLSessionTask?
     
+    // MARK: - Initializer
+    
     private init() {}
     
-    private func makeOAuthTokenRequest(code: String) -> URLRequest? {
-        guard var urlComponents = URLComponents(string: tokenURL) else {
-            print("[OAuth2Service/makeOAuthTokenRequest]: Ошибка при создании объекта URLComponents по ссылке: \(tokenURL).")
-            return nil
-        }
-        
-        urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: Constants.accessKey),
-            URLQueryItem(name: "client_secret", value: Constants.secretKey),
-            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
-            URLQueryItem(name: "code", value: code),
-            URLQueryItem(name: "grant_type", value: "authorization_code")
-        ]
-        guard let url = urlComponents.url else {
-            print("[OAuth2Service/makeOAuthTokenRequest]: Возникла ошибка при сборке URL.")
-            return nil
-        }
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        return request
-    }
+    // MARK: - Public Methods
     
     func fetchOAuthToken(code: String, completion: @escaping (Swift.Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
@@ -70,5 +58,29 @@ final class OAuth2Service {
         }
         self.task = task
         task.resume()
+    }
+    
+    // MARK: - Private Methods
+    
+    private func makeOAuthTokenRequest(code: String) -> URLRequest? {
+        guard var urlComponents = URLComponents(string: tokenURL) else {
+            print("[OAuth2Service/makeOAuthTokenRequest]: Ошибка при создании объекта URLComponents по ссылке: \(tokenURL).")
+            return nil
+        }
+        
+        urlComponents.queryItems = [
+            URLQueryItem(name: "client_id", value: Constants.accessKey),
+            URLQueryItem(name: "client_secret", value: Constants.secretKey),
+            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
+            URLQueryItem(name: "code", value: code),
+            URLQueryItem(name: "grant_type", value: "authorization_code")
+        ]
+        guard let url = urlComponents.url else {
+            print("[OAuth2Service/makeOAuthTokenRequest]: Возникла ошибка при сборке URL.")
+            return nil
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        return request
     }
 }

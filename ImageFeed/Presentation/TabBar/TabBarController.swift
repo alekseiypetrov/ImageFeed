@@ -1,10 +1,15 @@
 import UIKit
 
 final class TabBarController: UITabBarController {
+    
+    // MARK: - Private Properties
+    
     private let nameOfStoryboard = "Main"
     private let imageListViewIdentifier = "ImagesListViewController"
     private let profileViewIdentifier = "ProfileViewController"
     private var logoutFromAccountObserver: NSObjectProtocol?
+    
+    // MARK: - Lifecycle
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -22,6 +27,10 @@ final class TabBarController: UITabBarController {
             image: UIImage(named: "tab_profile_active"),
             selectedImage: nil
         )
+        let profilePresenter = ProfilePresenter()
+        profileViewController.presenter = profilePresenter
+        profilePresenter.view = profileViewController
+        
         self.viewControllers = [imagesListViewController, profileViewController]
         
         let appearance = UITabBarAppearance()
@@ -32,6 +41,8 @@ final class TabBarController: UITabBarController {
             tabBar.scrollEdgeAppearance = appearance
         }
     }
+    
+    // MARK: - Private Methods
     
     private func setupObserver() {
         NotificationCenter.default.addObserver(

@@ -3,11 +3,20 @@ import ProgressHUD
 
 final class AuthViewController: UIViewController {
     
+    // MARK: - Outlets
+    
     @IBOutlet private var logButton: UIButton!
+    
+    // MARK: - Private Properties
     
     private let segueWebViewIdentifier = "ShowWebView"
     private let oauth2Service = OAuth2Service.shared
+    
+    // MARK: - Public Properties
+    
     weak var delegate: AuthViewControllerDelegate?
+    
+    // MARK: - Lifecycle
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == segueWebViewIdentifier else {
@@ -29,6 +38,8 @@ final class AuthViewController: UIViewController {
         super.viewDidLoad()
         configureButton()
     }
+    
+    // MARK: - Private Methods
     
     private func configureButton() {
         let attributes: [NSAttributedString.Key: Any] = [

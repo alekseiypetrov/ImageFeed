@@ -9,13 +9,23 @@ protocol WebViewViewControllerProtocol: AnyObject {
 }
 
 final class WebViewViewController: UIViewController & WebViewViewControllerProtocol {
+    
+    // MARK: - Outlets
+    
     @IBOutlet private var navigationBarButton: UIButton!
     @IBOutlet private var webView: WKWebView!
     @IBOutlet private var progressView: UIProgressView!
     
+    // MARK: - Private Properties
+    
     private var estimatedProgressObservation: NSKeyValueObservation?
+    
+    // MARK: - Public Properties
+    
     weak var delegate: WebViewControllerDelegate?
     var presenter: WebViewPresenterProtocol?
+    
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,9 +35,21 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
         presenter?.viewDidLoad()
     }
     
+    // MARK: - Public Methods
+    
     func load(request: URLRequest) {
         webView.load(request)
     }
+    
+    func setProgressValue(_ newValue: Float) {
+        progressView.progress = newValue
+    }
+    
+    func setProgressHidden(_ isHidden: Bool) {
+        progressView.isHidden = isHidden
+    }
+    
+    // MARK: - Private Methods
     
     private func setupObserver() {
         estimatedProgressObservation = webView.observe(
@@ -38,13 +60,7 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
              })
     }
     
-    func setProgressValue(_ newValue: Float) {
-        progressView.progress = newValue
-    }
-    
-    func setProgressHidden(_ isHidden: Bool) {
-        progressView.isHidden = isHidden
-    }
+    // MARK: - Actions
     
     @IBAction private func didTapBackButton(_ sender: Any) {
         delegate?.webViewViewControllerDidCancel(self)

@@ -5,24 +5,23 @@ enum ProfileServiceError: Error {
 }
 
 final class ProfileService {
+    
+    // MARK: - Static Properties
+    
     static let shared = ProfileService()
+    
+    // MARK: - Private Properties
+    
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     private let profileURL = URL(string: "https://api.unsplash.com/me")
     private(set) var profile: Profile?
     
+    // MARK: - Initializer
+    
     private init() {}
     
-    private func makeProfileRequest(_ token: String) -> URLRequest? {
-        guard let url = profileURL else {
-            print("[ProfileService/makeProfileRequest]: Неккоректный URL для API.")
-            return nil
-        }
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        return request
-    }
+    // MARK: - Public Methods
     
     func fetchProfile(_ token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
         task?.cancel()
@@ -49,5 +48,18 @@ final class ProfileService {
         }
         self.task = task
         task.resume()
+    }
+    
+    // MARK: - Private Methods
+    
+    private func makeProfileRequest(_ token: String) -> URLRequest? {
+        guard let url = profileURL else {
+            print("[ProfileService/makeProfileRequest]: Неккоректный URL для API.")
+            return nil
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        return request
     }
 }
