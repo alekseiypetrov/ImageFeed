@@ -1,5 +1,4 @@
 import UIKit
-import Kingfisher
 
 protocol ProfilePresenterProtocol: AnyObject {
     var view: ProfileViewControllerProtocol? { get set }
@@ -11,24 +10,6 @@ protocol ProfilePresenterProtocol: AnyObject {
 }
 
 final class ProfilePresenter: ProfilePresenterProtocol {
-    
-    // MARK: - Constants
-    
-    private enum Constants {
-        static let commonImageForAvatar = UIImage(named: "profile_stub")
-        static let avatarSize: CGFloat = 70
-        static let avatarCornerRadius: CGFloat = 35
-        static let placeholderImage: UIImage? = Constants.commonImageForAvatar?
-            .withTintColor(.lightGray, renderingMode: .alwaysOriginal)
-            .withConfiguration(UIImage.SymbolConfiguration(pointSize: Constants.avatarSize, 
-                                                           weight: .regular, scale: .large))
-        static let processor = RoundCornerImageProcessor(cornerRadius: Constants.avatarCornerRadius)
-        static let options: KingfisherOptionsInfo = [
-            .processor(processor),
-            .scaleFactor(UIScreen.main.scale),
-            .cacheOriginalImage,
-            .forceRefresh]
-    }
     
     // MARK: - Public Properties
     
@@ -51,19 +32,7 @@ final class ProfilePresenter: ProfilePresenterProtocol {
         guard let profileImageURL = imageService.avatarURL,
               let url = URL(string: profileImageURL)
         else { return }
-        view?.updateAvatar(
-            url: url,
-            placeholder: Constants.placeholderImage,
-            options: Constants.options)
-        { result in
-            switch result {
-            case .success(let value):
-                print("[Profile]: Картинка загружена из: \(value.cacheType)")
-                print("[Profile]: Информация об источнике: \(value.source)")
-            case .failure(let error):
-                print(error)
-            }
-        }
+        view?.updateAvatar(url: url)
     }
     
     func showAlert(on viewController: UIViewController) {

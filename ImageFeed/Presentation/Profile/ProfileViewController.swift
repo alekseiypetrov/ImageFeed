@@ -5,10 +5,7 @@ protocol ProfileViewControllerProtocol: AnyObject {
     var presenter: ProfilePresenterProtocol? { get set }
     
     func updateLabels(with profile: Profile)
-    func updateAvatar(url: URL,
-                      placeholder: UIImage?,
-                      options: KingfisherOptionsInfo?,
-                      completion: ((Result<RetrieveImageResult, KingfisherError>) -> Void)?)
+    func updateAvatar(url: URL)
     func didConfirmLogout()
 }
 
@@ -18,6 +15,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
     
     private enum Constants {
         static let avatarSize: CGFloat = 70
+        static let avatarCornerRadius: CGFloat = 35
         static let topPadding: CGFloat = 20
         static let leadingPadding: CGFloat = 16
         static let bottomPadding: CGFloat = 8
@@ -30,6 +28,16 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         static let redColor = UIColor(named: "YP Red")
         static let greyColor = UIColor(named: "YP Grey")
         static let blackColor = UIColor(named: "YP Black")
+        static let placeholderImage: UIImage? = Constants.commonImageForAvatar?
+            .withTintColor(.lightGray, renderingMode: .alwaysOriginal)
+            .withConfiguration(UIImage.SymbolConfiguration(pointSize: Constants.avatarSize,
+                                                           weight: .regular, scale: .large))
+        static let processor = RoundCornerImageProcessor(cornerRadius: Constants.avatarCornerRadius)
+        static let options: KingfisherOptionsInfo = [
+            .processor(processor),
+            .scaleFactor(UIScreen.main.scale),
+            .cacheOriginalImage,
+            .forceRefresh]
     }
     
     // MARK: - UI-elements
@@ -101,6 +109,11 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
     
     // MARK: - Public Methods
     
+    func configure(_ presenter: ProfilePresenterProtocol) {
+        self.presenter = presenter
+        presenter.view = self
+    }
+    
     func didConfirmLogout() {
         presenter?.logoutFromAccount()
     }
@@ -111,14 +124,20 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
         descriptionLabel.text = profile.bio
     }
     
-    func updateAvatar(url: URL, placeholder: UIImage?, options: KingfisherOptionsInfo?, completion: ((Result<RetrieveImageResult, KingfisherError>) -> Void)?) {
+    func updateAvatar(url: URL) {
         avatarImageView.kf.indicatorType = .activity
         avatarImageView.kf.setImage(
             with: url,
-            placeholder: placeholder,
-            options: options,
-            completionHandler: completion
-        )
+            placeholder: Constants.placeholderImage,
+            options: Constants.options) {result in
+                switch result {
+                case .success(let value):
+                    print("[Profile]: Картинка загружена из: \(value.cacheType)")
+                    print("[Profile]: Информация об источнике: \(value.source)")
+                case .failure(let error):
+                    print(error)
+                }
+            }
     }
     
     // MARK: - Private Methods

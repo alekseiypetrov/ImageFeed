@@ -9,9 +9,7 @@ final class WebViewPresenterSpy: WebViewPresenterProtocol {
         viewDidLoadCalled = true
     }
     
-    func didUpdateProgressValue(_ newValue: Double) {
-        
-    }
+    func didUpdateProgressValue(_ newValue: Double) { }
     
     func code(from url: URL) -> String? {
         return nil
