@@ -18,16 +18,16 @@ final class ImageFeedUITests: XCTestCase {
         XCTAssertTrue(loginTextField.waitForExistence(timeout: 10))
         loginTextField.tap()
         sleep(3)
-        loginTextField.typeText("aleshapetrov03@mail.ru")
-        app.tap()
+        loginTextField.typeText("")
+        app.buttons["Done"].tap()
         sleep(3)
         
         let passwordTextField = webView.descendants(matching: .secureTextField).element
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 10))
         passwordTextField.tap()
         sleep(3)
-        passwordTextField.typeText("Qwerty1403")
-        app.tap()
+        passwordTextField.typeText("")
+        app.buttons["Done"].tap()
         sleep(3)
         
         webView.buttons["Login"].tap()
@@ -47,7 +47,10 @@ final class ImageFeedUITests: XCTestCase {
         
         cell.swipeUp()
         let cellToLike = tablesQuery.children(matching: .cell).element(boundBy: 1)
-        cellToLike.buttons["like button"].tap()
+        let likeButton = cellToLike.descendants(matching: .any)
+            .matching(NSPredicate(format: "label == 'like' OR identifier == 'like button'"))
+            .firstMatch
+        likeButton.tap()
         sleep(1)
         
         cellToLike.tap()
