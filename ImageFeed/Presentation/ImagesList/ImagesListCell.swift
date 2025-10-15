@@ -28,7 +28,9 @@ final class ImagesListCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        likeButton.isAccessibilityElement = true
         likeButton.accessibilityIdentifier = "like button"
+        likeButton.accessibilityLabel = "like"
     }
     
     override func prepareForReuse() {

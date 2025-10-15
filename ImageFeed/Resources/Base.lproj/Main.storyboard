@@ -46,7 +46,7 @@
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vor-9X-ASU" userLabel="Like Button">
                                                     <rect key="frame" x="329" y="11" width="44" height="44"/>
-                                                    <accessibility key="accessibilityConfiguration" identifier="like button"/>
+                                                    <accessibility key="accessibilityConfiguration" identifier="like button" label="like"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="44" id="3mG-D7-vXV"/>
                                                         <constraint firstAttribute="width" constant="44" id="Yjr-LQ-3OK"/>

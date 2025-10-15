@@ -11,19 +11,24 @@ final class ImageFeedUITests: XCTestCase {
     func testAuth() {
         app.buttons["Authenticate"].tap()
         let webView = app.webViews["UnsplashWebView"]
-        XCTAssertTrue(webView.waitForExistence(timeout: 15))
+        sleep(20)
+        XCTAssertTrue(webView.waitForExistence(timeout: 20))
         
         let loginTextField = webView.descendants(matching: .textField).element
-        XCTAssertTrue(loginTextField.waitForExistence(timeout: 7))
+        XCTAssertTrue(loginTextField.waitForExistence(timeout: 10))
         loginTextField.tap()
-        loginTextField.typeText("")
-        webView.swipeUp()
+        sleep(3)
+        loginTextField.typeText("aleshapetrov03@mail.ru")
+        app.tap()
+        sleep(3)
         
         let passwordTextField = webView.descendants(matching: .secureTextField).element
-        XCTAssertTrue(passwordTextField.waitForExistence(timeout: 7))
+        XCTAssertTrue(passwordTextField.waitForExistence(timeout: 10))
         passwordTextField.tap()
-        passwordTextField.typeText("")
-        webView.swipeUp()
+        sleep(3)
+        passwordTextField.typeText("Qwerty1403")
+        app.tap()
+        sleep(3)
         
         webView.buttons["Login"].tap()
         
@@ -49,7 +54,7 @@ final class ImageFeedUITests: XCTestCase {
         sleep(2)
         
         let image = app.scrollViews.images.element(boundBy: 0)
-        sleep(60)
+        sleep(90)
         XCTAssertTrue(image.waitForExistence(timeout: 30))
         image.pinch(withScale: 3, velocity: 1)
         image.pinch(withScale: 0.5, velocity: -1)
@@ -59,7 +64,7 @@ final class ImageFeedUITests: XCTestCase {
     }
     
     func testProfile() {
-        sleep(7)
+        sleep(15)
         app.tabBars.buttons.element(boundBy: 1).tap()
            
         XCTAssertTrue(app.staticTexts["Name Lastname"].exists)

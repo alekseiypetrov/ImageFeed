@@ -53,7 +53,7 @@ final class ImagesListPresenter: ImagesListPresenterProtocol {
             case .failure:
                 completion(.failure(ErrorReason.likeDidNotChanged))
             case .success:
-                self.photos = self.imagesListService.photos
+                self.photos[row].isLiked.toggle()
                 completion(.success(self.photos[row].isLiked))
             }
         }
