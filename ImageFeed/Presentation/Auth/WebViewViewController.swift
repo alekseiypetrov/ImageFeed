@@ -30,6 +30,7 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationBarButton.setTitle("", for: .normal)
+        webView.accessibilityIdentifier = "UnsplashWebView"
         webView.navigationDelegate = self
         setupObserver()
         presenter?.viewDidLoad()

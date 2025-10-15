@@ -50,6 +50,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
     private lazy var logoutButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
+        button.accessibilityIdentifier = "logout button"
         button.tintColor = Constants.redColor
         button.setImage(Constants.buttonImage, for: .normal)
         button.addTarget(self, action: #selector(logoutButtonPressed), for: .touchUpInside)
@@ -59,6 +60,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
     private let usernameLabel: UILabel = {
         let username = UILabel()
         username.translatesAutoresizingMaskIntoConstraints = false
+        username.accessibilityIdentifier = "Name Lastname"
         username.text = "Имя не указано"
         username.textColor = .white
         username.font = UIFont.boldSystemFont(ofSize: Constants.usernameSizeOfText)
@@ -68,6 +70,7 @@ final class ProfileViewController: UIViewController, ProfileViewControllerProtoc
     private let userTagLabel: UILabel = {
         let tag = UILabel()
         tag.translatesAutoresizingMaskIntoConstraints = false
+        tag.accessibilityIdentifier = "@username"
         tag.text = "@неизвестный_пользователь"
         tag.textColor = Constants.greyColor
         tag.font = UIFont.systemFont(ofSize: Constants.commonSizeOfText)

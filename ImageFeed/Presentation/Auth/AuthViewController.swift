@@ -42,6 +42,7 @@ final class AuthViewController: UIViewController {
     // MARK: - Private Methods
     
     private func configureButton() {
+        logButton.accessibilityIdentifier = "Authenticate"
         let attributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.black,
             .font: UIFont.systemFont(ofSize: 17, weight: .bold)

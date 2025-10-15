@@ -26,6 +26,11 @@ final class ImagesListCell: UITableViewCell {
     
     // MARK: - Lifecycle
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        likeButton.accessibilityIdentifier = "like button"
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         customImageView.kf.cancelDownloadTask()
