@@ -3,9 +3,17 @@ import WebKit
 import Kingfisher
 
 final class ProfileLogoutService {
+    
+    // MARK: - Static Properties
+    
     static let didLogoutFromAccount = Notification.Name(rawValue: "LogoutFromAccountWasMade")
     static let shared = ProfileLogoutService()
+    
+    // MARK: - Initializer
+    
     private init() { }
+    
+    // MARK: - Public Methods
     
     func logout() {
         UIBlockingProgressHUD.show()
@@ -13,6 +21,8 @@ final class ProfileLogoutService {
         cleanCache()
         UIBlockingProgressHUD.dismiss()
     }
+    
+    // MARK: - Private Methods
     
     private func cleanCookies() {
         HTTPCookieStorage.shared.removeCookies(since: Date.distantPast)

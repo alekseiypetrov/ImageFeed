@@ -2,9 +2,21 @@ import UIKit
 import ProgressHUD
 
 final class AuthViewController: UIViewController {
+    
+    // MARK: - Outlets
+    
+    @IBOutlet private var logButton: UIButton!
+    
+    // MARK: - Private Properties
+    
     private let segueWebViewIdentifier = "ShowWebView"
     private let oauth2Service = OAuth2Service.shared
+    
+    // MARK: - Public Properties
+    
     weak var delegate: AuthViewControllerDelegate?
+    
+    // MARK: - Lifecycle
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard segue.identifier == segueWebViewIdentifier else {
@@ -15,6 +27,10 @@ final class AuthViewController: UIViewController {
             assertionFailure("Failed to prepare for \(segueWebViewIdentifier).")
             return
         }
+        let authHelper = AuthHelper()
+        let webViewPresenter = WebViewPresenter(authHelper: authHelper)
+        webViewPresenter.view = webViewController
+        webViewController.presenter = webViewPresenter
         webViewController.delegate = self
     }
     
@@ -23,11 +39,16 @@ final class AuthViewController: UIViewController {
         configureButton()
     }
     
+    // MARK: - Private Methods
+    
     private func configureButton() {
-        navigationController?.navigationBar.backIndicatorImage = UIImage(named: "nav_bar_back")
-        navigationController?.navigationBar.backIndicatorTransitionMaskImage = UIImage(named: "nav_bar_back")
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.backBarButtonItem?.tintColor = UIColor(named: "YP Black")
+        logButton.accessibilityIdentifier = "Authenticate"
+        let attributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.black,
+            .font: UIFont.systemFont(ofSize: 17, weight: .bold)
+        ]
+        let attributedText = NSAttributedString(string: "Войти", attributes: attributes)
+        logButton.setAttributedTitle(attributedText, for: .normal)
     }
     
     private func showAuthErrorAlert(completion: (() -> Void)?) {

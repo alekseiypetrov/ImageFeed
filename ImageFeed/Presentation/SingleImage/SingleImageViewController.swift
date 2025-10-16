@@ -2,10 +2,17 @@ import UIKit
 import Kingfisher
 
 final class SingleImageViewController: UIViewController {
+    
+    // MARK: - Public Properties
+    
     var imageUrl: URL?
+    
+    // MARK: - Outlets
     
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var scrollView: UIScrollView!
+    
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -13,6 +20,8 @@ final class SingleImageViewController: UIViewController {
         scrollView.maximumZoomScale = 1.25
         loadImage()
     }
+    
+    // MARK: - Private Methods
     
     private func loadImage() {
         guard let imageUrl else {
@@ -52,19 +61,6 @@ final class SingleImageViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func didTapBackButton(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func didTapShareButton(_ sender: Any) {
-        guard let image = imageView.image else { return }
-        let activityView = UIActivityViewController(
-            activityItems: [image, "ImageFeed (YP)"],
-            applicationActivities: nil
-        )
-        present(activityView, animated: true, completion: nil)
-    }
-    
     private func rescaleAndCenterImageInScrollView(image: UIImage) {
         imageView.frame.size = image.size
         let minZoomScale = scrollView.minimumZoomScale
@@ -76,13 +72,27 @@ final class SingleImageViewController: UIViewController {
         let vScale = visibleRectSize.height / imageSize.height
         let scale = min(maxZoomScale, max(minZoomScale, min(hScale, vScale)))
         // max(maxZoomScale, min(minZoomScale, max(hScale, vScale)))
-        // min(maxZoomScale, max(minZoomScale, min(hScale, vScale)))
         scrollView.setZoomScale(scale, animated: false)
         scrollView.layoutIfNeeded()
         let newContentSize = scrollView.contentSize
         let x = (newContentSize.width - visibleRectSize.width) / 2
         let y = (newContentSize.height - visibleRectSize.height) / 2
         scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
+    }
+    
+    // MARK: - Actions
+    
+    @IBAction private func didTapBackButton(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction private func didTapShareButton(_ sender: Any) {
+        guard let image = imageView.image else { return }
+        let activityView = UIActivityViewController(
+            activityItems: [image, "ImageFeed (YP)"],
+            applicationActivities: nil
+        )
+        present(activityView, animated: true, completion: nil)
     }
 }
 

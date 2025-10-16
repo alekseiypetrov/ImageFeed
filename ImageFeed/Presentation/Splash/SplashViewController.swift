@@ -1,6 +1,9 @@
 import UIKit
 
 final class SplashViewController: UIViewController {
+    
+    // MARK: - Private Properties
+    
     private let nameOfStoryboard = "Main"
     private let authViewIdentifier = "AuthViewController"
     private let tabBarViewIdentifier = "TabBarViewController"
@@ -8,21 +11,11 @@ final class SplashViewController: UIViewController {
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-    }
-    
-    private func configureUI() {
-        view.backgroundColor = UIColor(named: "YP Black")
-        let image = UIImage(named: "Vector")
-        let imageView = UIImageView(image: image)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(imageView)
-        NSLayoutConstraint.activate([
-            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -42,6 +35,20 @@ final class SplashViewController: UIViewController {
             navigationController.viewControllers = [authViewController]
             self.present(navigationController, animated: true, completion: nil)
         }
+    }
+    
+    // MARK: - Private Methods
+    
+    private func configureUI() {
+        view.backgroundColor = UIColor(named: "YP Black")
+        let image = UIImage(named: "Vector")
+        let imageView = UIImageView(image: image)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(imageView)
+        NSLayoutConstraint.activate([
+            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
     
     private func switchToTabBarController() {
